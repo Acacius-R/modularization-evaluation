@@ -6,12 +6,15 @@ from tensorflow.keras.datasets import mnist # type: ignore
 from tensorflow.keras.utils import to_categorical # type: ignore
 from tensorflow.keras.datasets import mnist # type: ignore
 import csv
+import os
 from utils import *
 labels =[0,1,2,3,4,5,6,7,8,9]
-
-module = {}
-for i in labels:
-    module[i] = load_model('/home/rq/modularization/decomposeDNNintoModules/modularized_models/TI/'+str(i)+'.h5')
+num_classes = 10
+approach = 'Approach-CMRIE'
+model_name = 'MNIST_1'
+output_dir = f'{approach}/analaysis/{model_name}'
+os.makedirs(output_dir, exist_ok=True)
+module = {i: load_model(f'{approach}/modularized_models/{model_name}/{i}.h5') for i in range(num_classes)}
 
 def accuracy_evaluate():
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
@@ -37,7 +40,7 @@ def accuracy_evaluate():
             tmp.append(acc)
         result.append(tmp)
 
-    with open('accuracy.csv', 'w', newline='', encoding='utf-8')as f:
+    with open(f'{output_dir}/accuracy.csv', 'w', newline='', encoding='utf-8')as f:
         writer = csv.writer(f)
         writer.writerows(result)
 
@@ -68,7 +71,7 @@ def similarity_evaluate():
             print("Module ", i, " and Module ", j, " Jaccard similarity of weights: ", similarity)
         result.append(tmp)
 
-    orig_model = load_model('/home/rq/modularization/decomposeDNNintoModules/models/MNIST_1.h5')
+    orig_model = load_model(f'./models/{model_name}.h5')
     weights,biases = get_weights_and_biases(orig_model)
     weights = [w.flatten() for w in weights]
     weights= [np.array(w) for w in weights]
@@ -80,7 +83,7 @@ def similarity_evaluate():
         print("Original model and Module ", i, " Jaccard similarity of weights: ", similarity)
 
         
-    with open('simlarity.csv', 'w', newline='', encoding='utf-8')as f:
+    with open(f'./{output_dir}/similarity.csv', 'w', newline='', encoding='utf-8')as f:
         writer = csv.writer(f)
         writer.writerows(result)
 
