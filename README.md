@@ -7,16 +7,16 @@
 
 ```
 --decomposeDNNintoModules 
-	--datasets				    用于保存模型训练、测试数据（最后没用上）
-    --models          		    保存训练好的模型（待模块化模型），命名规则为"训练集名称"+"_"+"隐藏层数量"
-    --modularized_ models	    保存模块化后模型。
-    --result          		    用于保存分析结果
-    --modularize_ti.py		    按照decomposeDNNintoModules中的方法1TI，使用CI和TI方法模块化。
-    --reuse.py 				    对应decomposeDNNintoModules中的方法1TIreuse.py文件（源代码跑的太慢了，进行了修改）
-    --evaluate.py			    文件包含对模块化后的模型准确率测试和相似性测试。
-    --concern_identification.py 实现CI
-    --concern_modularzation.py  实现CM（没写完）
-    --tangling_identification.py实现TI
+    --datasets				        用于保存模型训练、测试数据（最后没用上）
+    --models          		        保存训练好的模型（待模块化模型），命名规则为"训练集名称"+"_"+"隐藏层数量"
+    --modularized_ models	        保存模块化后模型。
+    --result          		        用于保存分析结果
+    --modularize_ti.py		        按照decomposeDNNintoModules中的方法1TI，使用CI和TI方法模块化。
+    --reuse.py 				        对应decomposeDNNintoModules中的方法1TIreuse.py文件（源代码跑的太慢了，进行了修改）
+    --evaluate.py			        文件包含对模块化后的模型准确率测试和相似性测试。
+    --concern_identification.py     实现CI
+    --concern_modularzation.py      实现CM（没写完）
+    --tangling_identification.py    实现TI
     
 ```
 
