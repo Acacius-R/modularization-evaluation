@@ -17,11 +17,11 @@
 - **`modularized_models/`**  
   保存模块化后的模型。
 
-- **`result/`**  
-  用于保存分析结果。
+- **`Approach-XXX/`**  
+  保存使用xxx方法模块化后的模型和分析结果
 
-- **`modularize_ti.py`**  
-  按照 `decomposeDNNintoModules` 中的方法 1TI，结合 CI 和 TI 方法进行模型模块化。
+- **`modularize.py`**  
+  按照 `decomposeDNNintoModules` 中的综合使用CI、TI、CM方法进行模型模块化。
 
 - **`reuse.py`**  
   对应 `decomposeDNNintoModules` 中的方法 `1TIreuse.py` 的实现（对源代码进行了优化以提高运行效率）。
@@ -33,7 +33,7 @@
   实现 CI（Concern Identification）。
 
 - **`concern_modularization.py`**  
-  实现 CM（Concern Modularization，开发中，未完成）。
+  实现 CM（Concern Modularization）。
 
 - **`tangling_identification.py`**  
   实现 TI（Tangling Identification）。
