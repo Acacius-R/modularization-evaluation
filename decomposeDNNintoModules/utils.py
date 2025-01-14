@@ -9,6 +9,8 @@ def softmax(x):
     return exp_x / np.sum(exp_x, axis=-1, keepdims=True)
     # subtract the maximum value from the input vector 
     # not change the result of the softmax, beacause the relative scale of exp remains unchanged.
+
+#return the outputs of every layers
 def get_layer_outputs(input_data,weights,biases):
     x = input_data
     # x.reshape(x.shape[0], 28*28)
