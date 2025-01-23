@@ -13,7 +13,7 @@ x_test = x_test.astype('float32') / 255  # Normalize the pixel values
 # 将标签转换为one-hot编码
 y_test = to_categorical(y_test, num_classes)
 model_name = 'MNIST_1'
-models = {i: load_model(f'/home/rq/modularization/decomposeDNNintoModules/Approach-CMRIE/modularized_models/MNIST_1/{i}.h5') for i in range(num_classes)}
+models = {i: load_model(f'/home/rq/modularization/decomposeDNNintoModules/Approach-CMC/modularized_models/MNIST_1/{i}.h5') for i in range(num_classes)}
 finalPred= []
 batch_preds = {i: models[i].predict(x_test) for i in range(num_classes)}
 
@@ -51,7 +51,7 @@ print("Model Accuracy: "+str(origin_score))
 
 #将准确率对比保存为json文件
 result = {'Modularized Accuracy': score, 'Model Accuracy': origin_score}
-with open('./analaysis/accuracy.json', 'w') as f:
+with open(f'./analaysis/{model_name}/accuracy.json', 'w') as f:
     json.dump(result, f)
 
 

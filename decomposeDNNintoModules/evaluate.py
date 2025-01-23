@@ -10,7 +10,7 @@ import os
 from utils import *
 labels =[0,1,2,3,4,5,6,7,8,9]
 num_classes = 10
-approach = 'Approach-CMRIE'
+approach = 'Approach-TI'
 model_name = 'MNIST_1'
 output_dir = f'{approach}/analaysis/{model_name}'
 os.makedirs(output_dir, exist_ok=True)
@@ -77,19 +77,36 @@ def similarity_evaluate():
     weights= [np.array(w) for w in weights]
     weights= [np.array(w) for w in weights]
     weights = np.concatenate(weights)
+    y = np.count_nonzero(weights)
 
     for i in range(10):
         similarity = jaccard_similarity(weights, weights_to_compare[i])
         print("Original model and Module ", i, " Jaccard similarity of weights: ", similarity)
+        x = np.count_nonzero(weights_to_compare[i])
+        print("Module ", i, " weights percentage: ", x/y)
 
         
     with open(f'./{output_dir}/similarity.csv', 'w', newline='', encoding='utf-8')as f:
         writer = csv.writer(f)
         writer.writerows(result)
 
+# def weights_percentage_evaluate():
+
+#     orig_model = load_model(f'./models/{model_name}.h5')
+#     weights,biases = get_weights_and_biases(orig_model)
+    
+#     total = np.count_nonzero(weights)
+#     for i in range(10):
+#         module_to_eval = module[i]
+#         w,b = get_weights_and_biases(module_to_eval)
+#         x = np.count_nonzero(w)
+#         print("Module ", i, " weights percentage: ", x/total)
+
+
 if __name__ == '__main__':
     similarity_evaluate()
-    accuracy_evaluate()
+    # accuracy_evaluate()
+
 
     
 

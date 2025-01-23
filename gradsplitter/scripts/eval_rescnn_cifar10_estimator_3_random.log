@@ -1,0 +1,23 @@
+Namespace(model='rescnn', dataset='cifar10', estimator_idx=3)
+Estimator 3
+--------------------------------------------------------------------------------
+Active weights proportion: 0.54
+0.9020
+Active weights proportion: 0.54
+0.9010
+Active weights proportion: 0.57
+0.9025
+Active weights proportion: 0.69
+0.9005
+Active weights proportion: 0.68
+0.9010
+Active weights proportion: 0.71
+0.9075
+Active weights proportion: 0.47
+0.8920
+Active weights proportion: 0.63
+0.9035
+Active weights proportion: 0.53
+0.8915
+Active weights proportion: 0.51
+0.8985

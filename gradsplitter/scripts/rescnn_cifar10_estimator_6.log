@@ -1,0 +1,1 @@
+Namespace(model='rescnn', dataset='cifar10', estimator_idx=6, init_type='ones', lr_head=0.01, lr_modularity=0.001, epoch_strategy='5,70', batch_size=64, alpha=0.1)

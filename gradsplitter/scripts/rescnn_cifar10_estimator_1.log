@@ -1,0 +1,1123 @@
+Namespace(model='rescnn', dataset='cifar10', estimator_idx=1, init_type='ones', lr_head=0.01, lr_modularity=0.001, epoch_strategy='5,70', batch_size=64, alpha=0.1)
+Files already downloaded and verified
+Sequential(
+  (0): Linear(in_features=10, out_features=10, bias=True)
+  (1): ReLU()
+  (2): Linear(in_features=10, out_features=1, bias=True)
+)
+epoch 0
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.50
+loss_sim: 1.00
+acc : 97.49%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 1.00
+acc : 92.32%
+
+avg_kernels: 4288.00
+
+epoch 1
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 1.00
+acc : 100.00%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 1.00
+acc : 92.16%
+
+avg_kernels: 4288.00
+
+epoch 2
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 1.00
+acc : 100.00%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 1.00
+acc : 92.31%
+
+avg_kernels: 4288.00
+
+epoch 3
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 1.00
+acc : 100.00%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 1.00
+acc : 92.21%
+
+avg_kernels: 4288.00
+
+epoch 4
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 1.00
+acc : 100.00%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 1.00
+acc : 92.46%
+
+avg_kernels: 4288.00
+
+
+*** Modularize ***
+
+epoch 5
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 1.00
+acc : 100.00%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 1.00
+acc : 92.32%
+
+avg_kernels: 4288.00
+
+epoch 6
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 1.00
+acc : 100.00%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 1.00
+acc : 92.36%
+
+avg_kernels: 4288.00
+
+epoch 7
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 1.00
+acc : 100.00%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 1.00
+acc : 92.40%
+
+avg_kernels: 4288.00
+
+epoch 8
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.88
+acc : 99.99%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.73
+acc : 92.25%
+
+avg_kernels: 3126.10
+
+epoch 9
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.69
+acc : 99.99%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.67
+acc : 92.36%
+
+avg_kernels: 2870.30
+
+
+*** Train head ***
+
+epoch 10
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.67
+acc : 100.00%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.67
+acc : 92.38%
+
+avg_kernels: 2870.30
+
+epoch 11
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.67
+acc : 100.00%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.67
+acc : 92.42%
+
+avg_kernels: 2870.30
+
+
+*** Modularize ***
+
+epoch 12
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.64
+acc : 100.00%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.63
+acc : 92.57%
+
+avg_kernels: 2702.10
+
+epoch 13
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.62
+acc : 100.00%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.61
+acc : 92.53%
+
+avg_kernels: 2627.70
+
+epoch 14
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.61
+acc : 100.00%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.60
+acc : 92.21%
+
+avg_kernels: 2569.60
+
+epoch 15
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.59
+acc : 99.99%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.59
+acc : 92.21%
+
+avg_kernels: 2519.70
+
+epoch 16
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.58
+acc : 100.00%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.58
+acc : 92.51%
+
+avg_kernels: 2474.50
+
+
+*** Train head ***
+
+epoch 17
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.58
+acc : 99.99%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.58
+acc : 92.51%
+
+avg_kernels: 2474.50
+
+epoch 18
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.58
+acc : 99.99%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.58
+acc : 92.44%
+
+avg_kernels: 2474.50
+
+
+*** Modularize ***
+
+epoch 19
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.57
+acc : 99.98%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.56
+acc : 92.44%
+
+avg_kernels: 2397.70
+
+epoch 20
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.55
+acc : 99.99%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.55
+acc : 92.46%
+
+avg_kernels: 2360.60
+
+epoch 21
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.55
+acc : 99.97%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.54
+acc : 92.53%
+
+avg_kernels: 2330.10
+
+epoch 22
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.54
+acc : 99.97%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.54
+acc : 92.21%
+
+avg_kernels: 2298.90
+
+epoch 23
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.53
+acc : 99.98%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.53
+acc : 92.42%
+
+avg_kernels: 2273.20
+
+
+*** Train head ***
+
+epoch 24
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.53
+acc : 99.98%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.53
+acc : 92.27%
+
+avg_kernels: 2273.20
+
+epoch 25
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.53
+acc : 99.99%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.53
+acc : 92.40%
+
+avg_kernels: 2273.20
+
+
+*** Modularize ***
+
+epoch 26
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.52
+acc : 99.97%
+
+## Validation ##
+loss_pred: 1.53
+loss_sim: 0.52
+acc : 92.49%
+
+avg_kernels: 2222.70
+
+epoch 27
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.52
+acc : 99.98%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.51
+acc : 92.31%
+
+avg_kernels: 2202.20
+
+epoch 28
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.51
+acc : 99.98%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.51
+acc : 92.14%
+
+avg_kernels: 2182.50
+
+epoch 29
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.51
+acc : 99.96%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.50
+acc : 92.27%
+
+avg_kernels: 2163.20
+
+epoch 30
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.50
+acc : 99.97%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.50
+acc : 92.18%
+
+avg_kernels: 2148.50
+
+
+*** Train head ***
+
+epoch 31
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.50
+acc : 99.97%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.50
+acc : 92.29%
+
+avg_kernels: 2148.50
+
+epoch 32
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.50
+acc : 99.97%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.50
+acc : 92.14%
+
+avg_kernels: 2148.50
+
+
+*** Modularize ***
+
+epoch 33
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.49
+acc : 99.97%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.49
+acc : 92.14%
+
+avg_kernels: 2110.90
+
+epoch 34
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.49
+acc : 99.95%
+
+## Validation ##
+loss_pred: 1.53
+loss_sim: 0.49
+acc : 92.12%
+
+avg_kernels: 2095.00
+
+epoch 35
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.49
+acc : 99.97%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.49
+acc : 92.10%
+
+avg_kernels: 2081.10
+
+epoch 36
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.48
+acc : 99.98%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.48
+acc : 91.95%
+
+avg_kernels: 2068.60
+
+epoch 37
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.48
+acc : 99.95%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.48
+acc : 91.91%
+
+avg_kernels: 2057.30
+
+
+*** Train head ***
+
+epoch 38
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.48
+acc : 99.96%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.48
+acc : 92.08%
+
+avg_kernels: 2057.30
+
+epoch 39
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.48
+acc : 99.97%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.48
+acc : 92.18%
+
+avg_kernels: 2057.30
+
+
+*** Modularize ***
+
+epoch 40
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.48
+acc : 99.97%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.47
+acc : 92.10%
+
+avg_kernels: 2032.70
+
+epoch 41
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.47
+acc : 99.98%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.47
+acc : 92.06%
+
+avg_kernels: 2021.00
+
+epoch 42
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.47
+acc : 99.95%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.47
+acc : 92.16%
+
+avg_kernels: 2008.30
+
+epoch 43
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.47
+acc : 99.98%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.47
+acc : 92.12%
+
+avg_kernels: 1995.00
+
+epoch 44
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.46
+acc : 99.95%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.46
+acc : 91.97%
+
+avg_kernels: 1983.20
+
+
+*** Train head ***
+
+epoch 45
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.46
+acc : 99.96%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.46
+acc : 92.25%
+
+avg_kernels: 1983.20
+
+epoch 46
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.46
+acc : 99.96%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.46
+acc : 92.25%
+
+avg_kernels: 1983.20
+
+
+*** Modularize ***
+
+epoch 47
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.46
+acc : 99.94%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.46
+acc : 92.06%
+
+avg_kernels: 1965.70
+
+epoch 48
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.46
+acc : 99.96%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.46
+acc : 91.97%
+
+avg_kernels: 1955.70
+
+epoch 49
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.46
+acc : 99.93%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.45
+acc : 92.16%
+
+avg_kernels: 1949.60
+
+epoch 50
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.45
+acc : 99.94%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.45
+acc : 92.19%
+
+avg_kernels: 1945.60
+
+epoch 51
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.45
+acc : 99.94%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.45
+acc : 92.14%
+
+avg_kernels: 1936.50
+
+
+*** Train head ***
+
+epoch 52
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.45
+acc : 99.98%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.45
+acc : 92.06%
+
+avg_kernels: 1936.50
+
+epoch 53
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.45
+acc : 99.98%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.45
+acc : 91.91%
+
+avg_kernels: 1936.50
+
+
+*** Modularize ***
+
+epoch 54
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.45
+acc : 99.93%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.45
+acc : 91.78%
+
+avg_kernels: 1919.90
+
+epoch 55
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.45
+acc : 99.90%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.45
+acc : 92.25%
+
+avg_kernels: 1914.20
+
+epoch 56
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.45
+acc : 99.93%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.44
+acc : 92.04%
+
+avg_kernels: 1905.10
+
+epoch 57
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.44
+acc : 99.93%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.44
+acc : 91.95%
+
+avg_kernels: 1900.50
+
+epoch 58
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.44
+acc : 99.95%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.44
+acc : 91.91%
+
+avg_kernels: 1898.30
+
+
+*** Train head ***
+
+epoch 59
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.44
+acc : 99.97%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.44
+acc : 91.93%
+
+avg_kernels: 1898.30
+
+epoch 60
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.44
+acc : 99.97%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.44
+acc : 91.84%
+
+avg_kernels: 1898.30
+
+
+*** Modularize ***
+
+epoch 61
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.44
+acc : 99.95%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.44
+acc : 92.12%
+
+avg_kernels: 1877.10
+
+epoch 62
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.44
+acc : 99.94%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.44
+acc : 91.80%
+
+avg_kernels: 1877.50
+
+epoch 63
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.44
+acc : 99.93%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.44
+acc : 91.71%
+
+avg_kernels: 1871.20
+
+epoch 64
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.44
+acc : 99.95%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.43
+acc : 91.59%
+
+avg_kernels: 1864.70
+
+epoch 65
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.43
+acc : 99.89%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.43
+acc : 91.59%
+
+avg_kernels: 1863.70
+
+
+*** Train head ***
+
+epoch 66
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.43
+acc : 99.94%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.43
+acc : 91.80%
+
+avg_kernels: 1863.70
+
+epoch 67
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.43
+acc : 99.95%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.43
+acc : 91.78%
+
+avg_kernels: 1863.70
+
+
+*** Modularize ***
+
+epoch 68
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.43
+acc : 99.90%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.43
+acc : 91.65%
+
+avg_kernels: 1852.90
+
+epoch 69
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.43
+acc : 99.94%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.43
+acc : 91.99%
+
+avg_kernels: 1848.50
+
+epoch 70
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.43
+acc : 99.91%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.43
+acc : 91.65%
+
+avg_kernels: 1848.00
+
+epoch 71
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.43
+acc : 99.91%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.43
+acc : 91.74%
+
+avg_kernels: 1842.70
+
+epoch 72
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.43
+acc : 99.91%
+
+## Validation ##
+loss_pred: 1.55
+loss_sim: 0.43
+acc : 91.84%
+
+avg_kernels: 1837.30
+
+
+*** Train head ***
+
+epoch 73
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.43
+acc : 99.94%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.43
+acc : 91.91%
+
+avg_kernels: 1837.30
+
+epoch 74
+--------------------------------------------------------------------------------
+## Train ##
+loss_pred: 1.46
+loss_sim: 0.43
+acc : 99.95%
+
+## Validation ##
+loss_pred: 1.54
+loss_sim: 0.43
+acc : 91.97%
+
+avg_kernels: 1837.30
+
+====================================================================================================
+
+best_epoch: 12
+best_acc: 92.57%
+best_avg_kernel: 2702.10
+[(12, tensor(0.9257, device='cuda:0')), (13, tensor(0.9253, device='cuda:0')), (21, tensor(0.9253, device='cuda:0')), (17, tensor(0.9251, device='cuda:0')), (16, tensor(0.9251, device='cuda:0')), (26, tensor(0.9249, device='cuda:0')), (4, tensor(0.9246, device='cuda:0')), (20, tensor(0.9246, device='cuda:0')), (18, tensor(0.9244, device='cuda:0')), (19, tensor(0.9244, device='cuda:0')), (11, tensor(0.9242, device='cuda:0')), (23, tensor(0.9242, device='cuda:0')), (7, tensor(0.9240, device='cuda:0')), (25, tensor(0.9240, device='cuda:0')), (10, tensor(0.9238, device='cuda:0')), (6, tensor(0.9236, device='cuda:0')), (9, tensor(0.9236, device='cuda:0')), (0, tensor(0.9232, device='cuda:0')), (5, tensor(0.9232, device='cuda:0')), (2, tensor(0.9231, device='cuda:0')), (27, tensor(0.9231, device='cuda:0')), (31, tensor(0.9229, device='cuda:0')), (24, tensor(0.9227, device='cuda:0')), (29, tensor(0.9227, device='cuda:0')), (46, tensor(0.9225, device='cuda:0')), (45, tensor(0.9225, device='cuda:0')), (8, tensor(0.9225, device='cuda:0')), (55, tensor(0.9225, device='cuda:0')), (3, tensor(0.9221, device='cuda:0')), (22, tensor(0.9221, device='cuda:0')), (14, tensor(0.9221, device='cuda:0')), (15, tensor(0.9221, device='cuda:0')), (50, tensor(0.9219, device='cuda:0')), (30, tensor(0.9218, device='cuda:0')), (39, tensor(0.9218, device='cuda:0')), (49, tensor(0.9216, device='cuda:0')), (1, tensor(0.9216, device='cuda:0')), (42, tensor(0.9216, device='cuda:0')), (28, tensor(0.9214, device='cuda:0')), (32, tensor(0.9214, device='cuda:0')), (51, tensor(0.9214, device='cuda:0')), (33, tensor(0.9214, device='cuda:0')), (61, tensor(0.9212, device='cuda:0')), (43, tensor(0.9212, device='cuda:0')), (34, tensor(0.9212, device='cuda:0')), (35, tensor(0.9210, device='cuda:0')), (40, tensor(0.9210, device='cuda:0')), (38, tensor(0.9208, device='cuda:0')), (47, tensor(0.9206, device='cuda:0')), (52, tensor(0.9206, device='cuda:0')), (41, tensor(0.9206, device='cuda:0')), (56, tensor(0.9204, device='cuda:0')), (69, tensor(0.9199, device='cuda:0')), (74, tensor(0.9197, device='cuda:0')), (48, tensor(0.9197, device='cuda:0')), (44, tensor(0.9197, device='cuda:0')), (36, tensor(0.9195, device='cuda:0')), (57, tensor(0.9195, device='cuda:0')), (59, tensor(0.9193, device='cuda:0')), (58, tensor(0.9191, device='cuda:0')), (37, tensor(0.9191, device='cuda:0')), (53, tensor(0.9191, device='cuda:0')), (73, tensor(0.9191, device='cuda:0')), (72, tensor(0.9184, device='cuda:0')), (60, tensor(0.9184, device='cuda:0')), (62, tensor(0.9180, device='cuda:0')), (66, tensor(0.9180, device='cuda:0')), (54, tensor(0.9178, device='cuda:0')), (67, tensor(0.9178, device='cuda:0')), (71, tensor(0.9174, device='cuda:0')), (63, tensor(0.9171, device='cuda:0')), (68, tensor(0.9165, device='cuda:0')), (70, tensor(0.9165, device='cuda:0')), (64, tensor(0.9159, device='cuda:0')), (65, tensor(0.9159, device='cuda:0'))]

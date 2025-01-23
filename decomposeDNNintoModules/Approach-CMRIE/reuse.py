@@ -51,7 +51,7 @@ print("Model Accuracy: "+str(origin_score))
 
 #将准确率对比保存为json文件
 result = {'Modularized Accuracy': score, 'Model Accuracy': origin_score}
-with open('./analaysis/accuracy.json', 'w') as f:
+with open(f'./analaysis/{model_name}/accuracy.json', 'w') as f:
     json.dump(result, f)
 
 
