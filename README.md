@@ -13,7 +13,8 @@
 
 - **`gradsplitter/`**  
   《Reusing Convolutional Neural Network Models through Modularization and Composition》中提出的模块化方法Gradsplitter,参考Gradsplitter库（https://github.com/qibinhang/GradSplitter/tree/main）
-
+- **`cnnsplitter/`**  
+  《Patching Weak Convolutional Neural Network Models through Modularization and Composition》中提出的模块化方法Cnnsplitter,参考CNNsplitter库（https://github.com/qibinhang/CNNSplitter/tree/main）
 
 
 
