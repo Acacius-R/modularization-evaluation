@@ -1,0 +1,622 @@
+{
+    "module_0": {
+        "class_0": {
+            "accuracy": 0.1562,
+            "precision": 0.10587113183552353,
+            "recall": 0.999,
+            "f1": 0.19145266385588347
+        },
+        "class_1": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_2": {
+            "accuracy": 0.9009,
+            "precision": 0.6153846153846154,
+            "recall": 0.024,
+            "f1": 0.04619826756496631
+        },
+        "class_3": {
+            "accuracy": 0.8965,
+            "precision": 0.45179063360881544,
+            "recall": 0.164,
+            "f1": 0.24064563462949376
+        },
+        "class_4": {
+            "accuracy": 0.9028,
+            "precision": 0.8043478260869565,
+            "recall": 0.037,
+            "f1": 0.07074569789674952
+        },
+        "class_5": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_6": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_7": {
+            "accuracy": 0.9009,
+            "precision": 1.0,
+            "recall": 0.009,
+            "f1": 0.017839444995044598
+        },
+        "class_8": {
+            "accuracy": 0.9107,
+            "precision": 1.0,
+            "recall": 0.107,
+            "f1": 0.1933152664859982
+        },
+        "class_9": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        }
+    },
+    "module_1": {
+        "class_0": {
+            "accuracy": 0.9094,
+            "precision": 0.9051724137931034,
+            "recall": 0.105,
+            "f1": 0.1881720430107527
+        },
+        "class_1": {
+            "accuracy": 0.2415,
+            "precision": 0.11648223645894001,
+            "recall": 1.0,
+            "f1": 0.20865936358894105
+        },
+        "class_2": {
+            "accuracy": 0.903,
+            "precision": 0.7678571428571429,
+            "recall": 0.043,
+            "f1": 0.08143939393939394
+        },
+        "class_3": {
+            "accuracy": 0.8484,
+            "precision": 0.22955974842767296,
+            "recall": 0.219,
+            "f1": 0.2241555783009212
+        },
+        "class_4": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_5": {
+            "accuracy": 0.8999,
+            "precision": 0.3333333333333333,
+            "recall": 0.001,
+            "f1": 0.0019940179461615153
+        },
+        "class_6": {
+            "accuracy": 0.8947,
+            "precision": 0.3551912568306011,
+            "recall": 0.065,
+            "f1": 0.10989010989010989
+        },
+        "class_7": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_8": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_9": {
+            "accuracy": 0.9103,
+            "precision": 1.0,
+            "recall": 0.103,
+            "f1": 0.18676337262012693
+        }
+    },
+    "module_2": {
+        "class_0": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_1": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_2": {
+            "accuracy": 0.1707,
+            "precision": 0.1075234097513723,
+            "recall": 0.999,
+            "f1": 0.1941502283548732
+        },
+        "class_3": {
+            "accuracy": 0.9058,
+            "precision": 0.5947712418300654,
+            "recall": 0.182,
+            "f1": 0.2787136294027565
+        },
+        "class_4": {
+            "accuracy": 0.9024,
+            "precision": 0.9615384615384616,
+            "recall": 0.025,
+            "f1": 0.04873294346978557
+        },
+        "class_5": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_6": {
+            "accuracy": 0.9173,
+            "precision": 0.7294429708222812,
+            "recall": 0.275,
+            "f1": 0.39941902687000724
+        },
+        "class_7": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_8": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_9": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        }
+    },
+    "module_3": {
+        "class_0": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_1": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_2": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_3": {
+            "accuracy": 0.1007,
+            "precision": 0.10007004903432402,
+            "recall": 1.0,
+            "f1": 0.1819339579732557
+        },
+        "class_4": {
+            "accuracy": 0.9007,
+            "precision": 1.0,
+            "recall": 0.007,
+            "f1": 0.013902681231380337
+        },
+        "class_5": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_6": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_7": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_8": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_9": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        }
+    },
+    "module_4": {
+        "class_0": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_1": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_2": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_3": {
+            "accuracy": 0.9036,
+            "precision": 0.9285714285714286,
+            "recall": 0.039,
+            "f1": 0.07485604606525911
+        },
+        "class_4": {
+            "accuracy": 0.1043,
+            "precision": 0.10043185698503565,
+            "recall": 1.0,
+            "f1": 0.18253171488546135
+        },
+        "class_5": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_6": {
+            "accuracy": 0.9001,
+            "precision": 1.0,
+            "recall": 0.001,
+            "f1": 0.001998001998001998
+        },
+        "class_7": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_8": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_9": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        }
+    },
+    "module_5": {
+        "class_0": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_1": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_2": {
+            "accuracy": 0.9014,
+            "precision": 0.75,
+            "recall": 0.021,
+            "f1": 0.04085603112840467
+        },
+        "class_3": {
+            "accuracy": 0.5978,
+            "precision": 0.09403546480386889,
+            "recall": 0.35,
+            "f1": 0.14824227022448117
+        },
+        "class_4": {
+            "accuracy": 0.9056,
+            "precision": 0.9666666666666667,
+            "recall": 0.058,
+            "f1": 0.10943396226415095
+        },
+        "class_5": {
+            "accuracy": 0.4912,
+            "precision": 0.16259491581379992,
+            "recall": 0.985,
+            "f1": 0.27911589685463306
+        },
+        "class_6": {
+            "accuracy": 0.9132,
+            "precision": 1.0,
+            "recall": 0.132,
+            "f1": 0.2332155477031802
+        },
+        "class_7": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_8": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_9": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        }
+    },
+    "module_6": {
+        "class_0": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_1": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_2": {
+            "accuracy": 0.9003,
+            "precision": 1.0,
+            "recall": 0.003,
+            "f1": 0.005982053838484547
+        },
+        "class_3": {
+            "accuracy": 0.9002,
+            "precision": 1.0,
+            "recall": 0.002,
+            "f1": 0.003992015968063872
+        },
+        "class_4": {
+            "accuracy": 0.9024,
+            "precision": 0.7142857142857143,
+            "recall": 0.04,
+            "f1": 0.07575757575757576
+        },
+        "class_5": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_6": {
+            "accuracy": 0.1061,
+            "precision": 0.10061374383740819,
+            "recall": 1.0,
+            "f1": 0.18283206874485786
+        },
+        "class_7": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_8": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_9": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        }
+    },
+    "module_7": {
+        "class_0": {
+            "accuracy": 0.9,
+            "precision": 0.5,
+            "recall": 0.001,
+            "f1": 0.001996007984031936
+        },
+        "class_1": {
+            "accuracy": 0.9059,
+            "precision": 1.0,
+            "recall": 0.059,
+            "f1": 0.11142587346553352
+        },
+        "class_2": {
+            "accuracy": 0.9032,
+            "precision": 1.0,
+            "recall": 0.032,
+            "f1": 0.06201550387596899
+        },
+        "class_3": {
+            "accuracy": 0.7849,
+            "precision": 0.23515876668200644,
+            "recall": 0.511,
+            "f1": 0.3220926567916798
+        },
+        "class_4": {
+            "accuracy": 0.9084,
+            "precision": 0.5532994923857868,
+            "recall": 0.436,
+            "f1": 0.48769574944071586
+        },
+        "class_5": {
+            "accuracy": 0.9135,
+            "precision": 0.9591836734693877,
+            "recall": 0.141,
+            "f1": 0.24585876198779424
+        },
+        "class_6": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_7": {
+            "accuracy": 0.4195,
+            "precision": 0.1466392116487719,
+            "recall": 0.997,
+            "f1": 0.255673804333889
+        },
+        "class_8": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_9": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        }
+    },
+    "module_8": {
+        "class_0": {
+            "accuracy": 0.913,
+            "precision": 0.9391891891891891,
+            "recall": 0.139,
+            "f1": 0.2421602787456446
+        },
+        "class_1": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_2": {
+            "accuracy": 0.9127,
+            "precision": 0.7259786476868327,
+            "recall": 0.204,
+            "f1": 0.3185011709601874
+        },
+        "class_3": {
+            "accuracy": 0.7756,
+            "precision": 0.22909407665505227,
+            "recall": 0.526,
+            "f1": 0.3191747572815534
+        },
+        "class_4": {
+            "accuracy": 0.8904,
+            "precision": 0.41459074733096085,
+            "recall": 0.233,
+            "f1": 0.29833546734955185
+        },
+        "class_5": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_6": {
+            "accuracy": 0.9044,
+            "precision": 0.8055555555555556,
+            "recall": 0.058,
+            "f1": 0.10820895522388059
+        },
+        "class_7": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_8": {
+            "accuracy": 0.4357,
+            "precision": 0.15042915223610903,
+            "recall": 0.999,
+            "f1": 0.26148409893992935
+        },
+        "class_9": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        }
+    },
+    "module_9": {
+        "class_0": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_1": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_2": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_3": {
+            "accuracy": 0.8722,
+            "precision": 0.2713815789473684,
+            "recall": 0.165,
+            "f1": 0.20522388059701493
+        },
+        "class_4": {
+            "accuracy": 0.9016,
+            "precision": 0.6111111111111112,
+            "recall": 0.044,
+            "f1": 0.08208955223880597
+        },
+        "class_5": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_6": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_7": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_8": {
+            "accuracy": 0.9,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+        },
+        "class_9": {
+            "accuracy": 0.168,
+            "precision": 0.1072961373390558,
+            "recall": 1.0,
+            "f1": 0.1937984496124031
+        }
+    }
+}
