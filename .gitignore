@@ -1,2 +1,8 @@
 gradsplitter/data/*
+seam/data/*
+mwt/data/*
+cnnsplitter/data/*
+.gz
+seam/src/mutil_class/datasets/*
 .pyc
+.pt
