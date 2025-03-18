@@ -55,7 +55,7 @@ def main():
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--model', choices=['simcnn', 'rescnn'])
-    parser.add_argument('--dataset', choices=['cifar10', 'svhn', 'svhn_5'])
+    parser.add_argument('--dataset', choices=['cifar10', 'svhn', 'svhn_5','cifar100'])
     parser.add_argument('--target_class', choices=[str(i) for i in range(10)])
     parser.add_argument('--checkpoint', type=int, default=0)
     args = parser.parse_args()

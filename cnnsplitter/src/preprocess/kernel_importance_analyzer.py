@@ -47,7 +47,7 @@ def main():
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--model', choices=['simcnn', 'rescnn'])
-    parser.add_argument('--dataset', choices=['cifar10', 'svhn', 'svhn_5'])
+    parser.add_argument('--dataset', choices=['cifar10', 'svhn', 'cifar100'])
     args = parser.parse_args()
     model_name = args.model
     dataset_name = args.dataset

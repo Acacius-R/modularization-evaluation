@@ -22,13 +22,15 @@ import os
 import torch.nn.functional as F
 from tqdm import tqdm
 from configs import Configs
-from dataset_loader import load_cifar10, load_cifar10_target_class, load_svhn, load_svhn_target_class
-
+from dataset_loader import load_cifar10, load_cifar10_target_class, load_svhn, load_svhn_target_class,load_cifar100_target_class,load_cifar100,\
+                            load_cifar10_single_target_class,load_svhn_single_target_class,load_cifar100_single_target_class
+import thop
+import csv
 
 def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--model', type=str, choices=['vgg16', 'resnet18', 'simcnn', 'rescnn'], required=True)
-    parser.add_argument('--dataset', type=str, choices=['cifar10', 'svhn'], required=True)
+    parser.add_argument('--dataset', type=str, choices=['cifar10', 'svhn','cifar100'], required=True)
 
     parser.add_argument('--lr_model', type=float, default=0.05)
     # parser.add_argument('--lr_mask', type=float, default=0.05)
@@ -36,7 +38,7 @@ def get_args():
     parser.add_argument('--beta', type=float, default=1.5)
     parser.add_argument('--batch_size', type=int, default=128)
 
-    parser.add_argument('--target_classes', nargs='+', type=int, required=True)
+    parser.add_argument('--target_classes', nargs='+', type=int, required=False)
     parser.add_argument('--threshold', type=float, default=0.9)
 
     args = parser.parse_args()
@@ -86,13 +88,16 @@ def generate_masks_for_modules(samples_masks, samples_labels, num_classes, mt_mo
         assert point == len(frequency)
         each_module_mask = []
         for layer_frequency in all_layer_frequency:
+            # print(f'layer_frequency: {layer_frequency}')
             cur_thres = threshold
             while True:
                 layer_mask = (layer_frequency >= cur_thres).int()
                 if torch.sum(layer_mask) == 0.0:
                     cur_thres -= 0.05
                     if cur_thres <= 0:
-                        raise ValueError(f'cur_thres = {cur_thres} should greater than 0.0')
+                        # raise ValueError(f'cur_thres = {cur_thres} should greater than 0.0')
+                        layer_mask = torch.randint(0, 2, layer_frequency.shape, dtype=torch.int).to(layer_frequency.device)
+                        break
                 else:
                     break
             each_module_mask.append(layer_mask)
@@ -100,6 +105,7 @@ def generate_masks_for_modules(samples_masks, samples_labels, num_classes, mt_mo
         module_masks.append(each_module_mask)
     module_masks = torch.stack(module_masks, dim=0)
     return module_masks
+
 
 
 def cal_jaccard_index(masks):
@@ -250,6 +256,8 @@ def generate_all_modules_masks():
         train_loader, test_loader = load_cifar10(configs.dataset_dir, batch_size=batch_size, num_workers=2)
     elif dataset_name == 'svhn':
         train_loader, test_loader = load_svhn(f'{configs.dataset_dir}/svhn', batch_size=batch_size, num_workers=2)
+    elif dataset_name == 'cifar100':
+        train_loader, test_loader = load_cifar100(configs.dataset_dir, batch_size=batch_size, num_workers=2)
     else:
         raise ValueError
 
@@ -301,12 +309,90 @@ def generate_target_module(target_classes, module_mask_path,random_selection = F
                                keep_generator=False).to(DEVICE)
     else:
         raise ValueError
-
-    module.module_head = torch.nn.Sequential(
-        torch.nn.ReLU(True),
-        torch.nn.Linear(module.num_classes, len(target_classes)),
-    ).to(DEVICE)
+    #rq 
+    if len(target_classes) == 1:
+        module.module_head = torch.nn.Sequential(
+            torch.nn.ReLU(True),
+            torch.nn.Linear(module.num_classes, 2),
+        ).to(DEVICE)
+    else:
+        module.module_head = torch.nn.Sequential(
+            torch.nn.ReLU(True),
+            torch.nn.Linear(module.num_classes, len(target_classes)),
+        ).to(DEVICE)
     return module
+
+def calculate_similarity(module_mask_path):
+    all_modules_masks = torch.load(module_mask_path)
+    masks = []
+    for i in range(10):
+        target_module_mask = (torch.sum(all_modules_masks[[i]], dim=0) > 0).int()
+        masks.append(target_module_mask)
+        # print(target_module_mask)
+    
+    result=[]
+    for i in range(10):
+        tmp = []
+        for j in range(10):
+            mask1 = masks[i]
+            mask2 = masks[j]
+            intersection = torch.sum(mask1 * mask2)
+            union = torch.sum((mask1 + mask2) > 0)
+            tmp.append((intersection/union).item())
+            print(f"Module {i} and Module {j} Jaccard similarity of masks: {intersection/union:.2f}")
+        result.append(tmp)
+
+    with open(f'{save_dir}/similarity.csv', 'w', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        writer.writerows(result)
+    
+
+def calculate_cross_accuracy():
+    num_classes = 10
+    modules=[]
+    dataset = []
+    results = []
+    print(save_dir)
+    print("-"*80)
+    for i in range(num_classes):
+        target_class = [i] 
+        module = generate_target_module(target_class, modules_masks_save_path,random_selection=False)
+        if dataset_name == 'cifar10':
+            target_train_loader, target_test_loader = load_cifar10_single_target_class(
+                configs.dataset_dir, batch_size=batch_size, num_workers=num_workers, target_class=target_class)
+        elif dataset_name == 'svhn':
+            target_train_loader, target_test_loader = load_svhn_single_target_class(
+                f'{configs.dataset_dir}/svhn', batch_size=batch_size, num_workers=num_workers, target_class=target_class)
+        elif dataset_name == 'cifar100':
+            target_train_loader, target_test_loader = load_cifar100_single_target_class(
+                configs.dataset_dir, batch_size=batch_size, num_workers=num_workers, target_class=target_class)
+        else:
+            raise ValueError
+        module = fine_tune_module(module, target_train_loader, target_test_loader, num_epoch=10)
+        fine_tuned_acc = evaluate_module(module, target_test_loader)
+        results.append(fine_tuned_acc.item())
+        modules.append(module)
+        dataset.append(target_test_loader)
+    
+    whole_results = []
+    for i in range(num_classes):
+        print("-"*80)
+        module = modules[i]
+        tmp =[]
+        for j in range(num_classes):
+            if i == j:
+                tmp.append(results[i])
+                continue
+            target_test_loader = dataset[j]
+            fine_tuned_acc = evaluate_module(module, target_test_loader)
+            tmp.append(fine_tuned_acc.item())
+        print(tmp)
+        whole_results.append(tmp)
+    
+    with open(f'{save_dir}/accuracy.csv','w') as f:
+        writer = csv.writer(f)
+        writer.writerows(whole_results)
+            
 
 
 def main():
@@ -315,22 +401,31 @@ def main():
 
     # load the target module
     module = generate_target_module(target_classes, modules_masks_save_path,random_selection=False)
-    if dataset_name == 'cifar10':
-        target_train_loader, target_test_loader = load_cifar10_target_class(
-            configs.dataset_dir, batch_size=batch_size, num_workers=num_workers, target_classes=target_classes)
-    elif dataset_name == 'svhn':
-        target_train_loader, target_test_loader = load_svhn_target_class(
-            f'{configs.dataset_dir}/svhn', batch_size=batch_size, num_workers=num_workers, target_classes=target_classes)
+    if len(target_classes) == 1:
+        if dataset_name == 'cifar10':
+            target_train_loader, target_test_loader = load_cifar10_single_target_class(
+                configs.dataset_dir, batch_size=batch_size, num_workers=num_workers, target_class=target_classes)
+        elif dataset_name == 'svhn':
+            target_train_loader, target_test_loader = load_svhn_single_target_class(
+                f'{configs.dataset_dir}/svhn', batch_size=batch_size, num_workers=num_workers, target_class=target_classes)
+        elif dataset_name == 'cifar100':
+            target_train_loader, target_test_loader = load_cifar100_single_target_class(
+                configs.dataset_dir, batch_size=batch_size, num_workers=num_workers, target_class=target_classes)
+        else:
+            raise ValueError
     else:
-        raise ValueError
+        if dataset_name == 'cifar10':
+            target_train_loader, target_test_loader = load_cifar10_target_class(
+                configs.dataset_dir, batch_size=batch_size, num_workers=num_workers, target_classes=target_classes)
+        elif dataset_name == 'svhn':
+            target_train_loader, target_test_loader = load_svhn_target_class(
+                f'{configs.dataset_dir}/svhn', batch_size=batch_size, num_workers=num_workers, target_classes=target_classes)
+        elif dataset_name == 'cifar100':
+            target_train_loader, target_test_loader = load_cifar100_target_class(
+                configs.dataset_dir, batch_size=batch_size, num_workers=num_workers, target_classes=target_classes)
+        else:
+            raise ValueError
 
-    # fine-tune the target module
-    module = fine_tune_module(module, target_train_loader, target_test_loader, num_epoch=10)
-    fine_tuned_acc = evaluate_module(module, target_test_loader)
-    print(f'Module ACC (fine-tuned): {fine_tuned_acc:.2%}\n')
-    torch.save(module.state_dict(), modules_save_path)
-
-    # compared to the standard model
     if model_name == 'vgg16':
         st_model = st_vgg16_model(pretrained=False).to(DEVICE)
     elif model_name == 'resnet18':
@@ -342,8 +437,52 @@ def main():
     else:
         raise ValueError
     st_model.load_state_dict(torch.load(st_model_save_path, map_location=DEVICE))
-    st_model_acc = evaluate_model(st_model, target_test_loader, target_classes=target_classes)
-    print(f'Standard Model ACC     : {st_model_acc:.2%}\n')
+    # st_model_acc = evaluate_model(st_model, target_test_loader, target_classes=target_classes)
+    # print(f'Standard Model ACC     : {st_model_acc:.2%}\n')
+
+    inputs, labels = next(iter(target_test_loader))
+    inputs = inputs.to(DEVICE)
+    total_flops = 0
+    total_param= 0
+    for i in range(10):
+        module = generate_target_module([i], modules_masks_save_path,random_selection=False)
+        flops,param = thop.profile(module, inputs=(inputs,))
+        total_flops += flops
+        total_param += param
+
+    print(f"Module FLOPs: {total_flops}, Module Params: {total_param}")
+    st_model_flops = thop.profile(st_model, inputs=(inputs,))
+    module_flops = thop.profile(module, inputs=(inputs,))
+    print(f"entire model flops: {st_model_flops}")
+
+def calculate_param(modules_masks_save_path):
+    
+    target_classes = [0,1,2,3,4,5,6,7,8,9]
+    module = generate_target_module(target_classes, modules_masks_save_path,random_selection=False)
+    total_params = sum(p.numel() for p in module.parameters())
+    print(f"Module Params: {total_params}")
+
+    if model_name == 'vgg16':
+        st_model = st_vgg16_model(pretrained=False).to(DEVICE)
+    elif model_name == 'resnet18':
+        st_model = st_ResNet18_model().to(DEVICE)
+    elif model_name == 'simcnn':
+        st_model = st_simcnn_model().to(DEVICE)
+    elif model_name == 'rescnn':
+        st_model = st_rescnn_model().to(DEVICE)
+
+    st_model.load_state_dict(torch.load(st_model_save_path, map_location=DEVICE))
+    total_params = sum(p.numel() for p in st_model.parameters())
+    print(f"Standard Model Params: {total_params}")
+    # masks = []
+    # for i in range(10):
+    #     target_module_mask = (torch.sum(all_modules_masks[[i]], dim=0) > 0).int()
+    #     masks.append(target_module_mask)
+    #     # print(target_module_mask)
+
+    # print(f"whole model param:{len(masks[0])}")
+    # for i in range(len(masks)):
+    #     print(f"module {i} param:{torch.sum(masks[i])}")
 
 
 if __name__ == '__main__':
@@ -390,3 +529,8 @@ if __name__ == '__main__':
     assert os.path.exists(st_model_save_path)
 
     main()
+    random_seed = 306
+    # calculate_similarity(modules_masks_save_path)
+    # calculate_cross_accuracy()
+    # calculate_param(modules_masks_save_path)
+    

@@ -10,21 +10,21 @@ import os
 from tqdm import tqdm
 from torch.utils.tensorboard import SummaryWriter
 from configs import Configs
-from dataset_loader import load_cifar10, load_svhn
+from dataset_loader import load_cifar10, load_svhn,load_cifar100
 from standard_trainer import cal_modular_metrics
 
 
 def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--model', type=str, choices=['vgg16', 'resnet18', 'simcnn', 'rescnn'], required=True)
-    parser.add_argument('--dataset', type=str, choices=['cifar10', 'svhn'], required=True)
+    parser.add_argument('--dataset', type=str, choices=['cifar10', 'svhn','cifar100'], required=True)
 
     parser.add_argument('--lr_model', type=float, default=0.05)
     # parser.add_argument('--lr_mask', type=float, default=0.05)
     parser.add_argument('--alpha', type=float, default=0.5)
     parser.add_argument('--beta', type=float, default=1.5)
     parser.add_argument('--batch_size', type=int, default=128)
-    parser.add_argument('--n_epochs', type=int, default=200)
+    parser.add_argument('--n_epochs', type=int, default=100)
     parser.add_argument('--cal_modular_metrics', action='store_true',
                         help='calculate the cohesion and coupling. '
                              'This is not necessary for modular training and '
@@ -196,6 +196,8 @@ def main():
         train_loader, test_loader = load_cifar10(configs.dataset_dir, batch_size=batch_size, num_workers=num_workers)
     elif dataset_name == 'svhn':
         train_loader, test_loader = load_svhn(f'{configs.dataset_dir}/svhn', batch_size=batch_size, num_workers=num_workers)
+    elif dataset_name == 'cifar100':
+        train_loader, test_loader = load_cifar10(configs.dataset_dir, batch_size=batch_size, num_workers=num_workers)
     else:
         raise ValueError
 

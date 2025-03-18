@@ -158,11 +158,9 @@ def get_module_param(module, module_layer_masks, model_param, keep_generator=Tru
     module_param = copy.deepcopy(model_param)
 
     masked_conv_idx = 0
-
     for each_layer_idx, each_layer in module.features._modules.items():
         if not isinstance(each_layer, MaskConvBN):
             continue
-
         layer_mask = module_layer_masks[masked_conv_idx]
         retrained_kernel_indices = torch.nonzero(layer_mask, as_tuple=True)[0]
 

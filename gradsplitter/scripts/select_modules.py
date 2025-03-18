@@ -7,11 +7,11 @@ from utils.configure_loader import load_configure
 # First, considering the accuracy, the loss of accuracy should less than 1%.
 # Then, considering the number of kernels.
 # estimator_indices = [1, 3, 4, 6, 8, 10, 11, 14, 15, 16]
-estimator_indices = [1, 3, 4, 9, 10, 11, 12, 14, 15, 16]
-best_epoch = [12, 33, 11, 13, 6, 4, 3, 43, 6, 19]  # simcnn_cifar10
+estimator_indices = [9]
+best_epoch = [6]  # simcnn_cifar10
 
 model = 'rescnn'
-dataset = 'cifar10'
+dataset = 'cifar100'
 lr_head = 0.01
 lr_modularity = 0.001
 alpha = 0.1  # for the weighted sum of loss1 and loss2

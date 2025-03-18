@@ -15,6 +15,10 @@ def load_configure(model_name, dataset_name):
         from configures.simcnn_svhn_5 import Configures
     elif model_dataset_name == 'rescnn_svhn_5':
         from configures.rescnn_svhn_5 import Configures
+    elif model_dataset_name == 'rescnn_cifar100':
+        from configures.rescnn_cifar100 import Configures
+    elif model_dataset_name == 'simcnn_cifar100':
+        from configures.simcnn_cifar100 import Configures
     else:
         raise ValueError()
     configs = Configures()

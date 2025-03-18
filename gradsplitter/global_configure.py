@@ -1,7 +1,7 @@
 class GlobalConfigures:
     def __init__(self):
         import os
-        root_dir = f'/home/rq/modularization/gradsplitter'  # modify the dir
+        root_dir = f'/bdata/rq/modularization/gradsplitter'  # modify the dir
         assert os.path.exists(root_dir)
 
         if os.path.exists(f'{root_dir}/data'):

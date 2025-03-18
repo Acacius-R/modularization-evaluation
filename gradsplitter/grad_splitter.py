@@ -11,6 +11,7 @@ from utils.dataset_loader import get_dataset_loader
 from utils.checker import check_dir
 from utils.splitter_loader import load_splitter
 from tqdm import tqdm
+import time
 
 
 def loss_func(predicts, label, grad_splitter):
@@ -22,6 +23,7 @@ def loss_func(predicts, label, grad_splitter):
 
 
 def modularize(model, train_dataset, val_dataset, test_dataset, save_dir):
+    start_time = time.time()
     grad_splitter = GradSplitter(model, init_type)
 
     acc_log = []
@@ -58,12 +60,12 @@ def modularize(model, train_dataset, val_dataset, test_dataset, save_dir):
             best_epoch = epoch
         best_modules = grad_splitter.get_module_params()
         torch.save(best_modules, f'{save_dir}/epoch_{epoch}.pth')
-
+    end_time = time.time()
     print('='*100 + '\n')
     print(f'best_epoch: {best_epoch}')
     print(f'best_acc: {best_acc * 100:.2f}%')
     print(f'best_avg_kernel: {best_avg_kernel:.2f}')
-
+    print(f'time: {end_time - start_time:.2f}s\n')
     # TEST
     sorted_acc_log = list(sorted(zip(range(len(acc_log)), acc_log), key=lambda x: x[1], reverse=True))
     print(sorted_acc_log)
@@ -156,13 +158,13 @@ def main():
 if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model', choices=['simcnn', 'rescnn', 'incecnn'])
-    parser.add_argument('--dataset', choices=['cifar10', 'svhn'])
+    parser.add_argument('--model', choices=['vgg16', 'rescnn', 'simcnn'])
+    parser.add_argument('--dataset', choices=['cifar10', 'svhn','cifar100'])
     parser.add_argument('--estimator_idx', type=int)
     parser.add_argument('--init_type', type=str, choices=['random', 'ones', 'zeros'], default='ones')
     parser.add_argument('--lr_head', type=float, default=0.01)
     parser.add_argument('--lr_modularity', type=float, default=0.001)
-    parser.add_argument('--epoch_strategy', type=str, default='5,70', help='epochs_for_head,epochs_for_modularity')
+    parser.add_argument('--epoch_strategy', type=str, default='5,7', help='epochs_for_head,epochs_for_modularity')
     parser.add_argument('--batch_size', type=int, default=64)
     parser.add_argument('--alpha', type=float, default=0.1)
     args = parser.parse_args()

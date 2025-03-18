@@ -12,7 +12,7 @@ class Configures(GlobalConfigures):
         self.best_generation = 185
         self.best_sol_ensemble = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.log_idx = 'recorder_6'
-        self.best_acc = f'85.64%'
+        self.best_acc = f'94.63%'
         self.best_diff = f'56.48%'
 
         self.workspace = f'{self.data_dir}/{self.model_name}_{self.dataset_name}'
@@ -39,7 +39,8 @@ class Configures(GlobalConfigures):
                         512, 512,
                         512,
                         512, 512]
-        sensitive_layer_idx = [0, 2, 3, 5]  # conv_0, 1, 3, 4, 5, 7 -> 0, 2, 3, 5
+        # sensitive_layer_idx = [0, 2, 3, 5]  # conv_0, 1, 3, 4, 5, 7 -> 0, 2, 3, 5
+        sensitive_layer_idx = [0, 1,3,4,5,7]
         sensitive_layer_kernel = [conv_kernels[i] for i in sensitive_layer_idx]
         # sensitive_layer_group = [n_kernels for n_kernels in sensitive_layer_kernel]
         sensitive_layer_group = [10 if n_kernels < 256 else 100 for n_kernels in sensitive_layer_kernel]

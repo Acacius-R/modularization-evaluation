@@ -1,11 +1,12 @@
 import numpy as np
 from keras.models import load_model
-from tensorflow.keras.datasets import mnist
+from tensorflow.keras.datasets import mnist,fashion_mnist
 from tangling_identification import tangling_identification
 from concern_identification import concern_identification
 from concern_modularzation import *
 from utils import *
-
+import time
+import tensorflow_datasets as tfds
 
 
 def ti_modularize():
@@ -37,7 +38,7 @@ def ti_modularize():
         # model.layers[2].set_weights([D[1],b[1]])
         for j in range(1,len(model.layers)):
             model.layers[j].set_weights([D[j-1],b[j-1]])
-        model.save('./Approach-TI/modularized_models/'+model_name+'/'+str(i)+'.h5')
+        model.save(root_dir+'Approach-TI/modularized_models/'+model_name+'/'+str(i)+'.h5')
 
 def cmc_modularize():
     for i in labels:
@@ -73,7 +74,7 @@ def cmc_modularize():
 
         for j in range(1,len(model.layers)):
             model.layers[j].set_weights([D[j-1],b[j-1]])
-        model.save('./Approach-CMC/modularized_models/'+model_name+'/'+str(i)+'.h5')
+        model.save(root_dir+'Approach-CMC/modularized_models/'+model_name+'/'+str(i)+'.h5')
 
 def cmrie_modularize():
     for i in labels:
@@ -109,21 +110,31 @@ def cmrie_modularize():
 
         for j in range(1,len(model.layers)):
             model.layers[j].set_weights([D[j-1],b[j-1]])
-        model.save('./Approach-CMRIE/modularized_models/'+model_name+'/'+str(i)+'.h5')
+        model.save(root_dir+'Approach-CMRIE/modularized_models/'+model_name+'/'+str(i)+'.h5')
 
 if __name__ == '__main__':
+    start_time = time.time()
     labels =[0,1,2,3,4,5,6,7,8,9]
-    data_dir = '/home/rq/modularization/decomposeDNNintoModules/datasets/MNIST'
-    slicing_model = load_model('/home/rq/modularization/decomposeDNNintoModules/models/MNIST_1.h5')
-    model = load_model('/home/rq/modularization/decomposeDNNintoModules/models/MNIST_1.h5')
-    model_name = "MNIST_1"
-
-
-
+    root_dir = '/bdata/rq/modularization/decomposeDNNintoModules/'
+    model_name = "FMNIST_5"
+    model_dir = root_dir + 'models/' + model_name + '.h5'
+    slicing_model = load_model(model_dir)
+    model = load_model(model_dir)
+    
     #加载训练数据
-    (x_train, y_train), (x_test, y_test) = mnist.load_data()
+
+    if "FMNIST" in model_name:
+        (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
+    elif "KMNIST" in model_name:
+        dataset, info = tfds.load("kmnist", as_supervised=True, with_info=True)
+        x_train = np.array([example[0].numpy() for example in dataset["train"]])
+        y_train = np.array([example[1].numpy() for example in dataset["train"]])
+    else:
+        (x_train, y_train), (x_test, y_test) = mnist.load_data()
     train_data ={i:[] for i in labels}
     x_train = x_train.reshape((x_train.shape[0], 28 * 28))
     for i in range(len(y_train)):
         train_data[y_train[i]].append(x_train[i])
     cmrie_modularize()
+    end_time = time.time()
+    print("Time cost: ",end_time-start_time)

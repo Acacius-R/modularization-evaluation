@@ -1,20 +1,24 @@
 # **Modularization**
 
-本项目旨在复现模型模块化相关论文提到的模块化方法 并对其进行重新评估
+we aim to reproduct the modularization method and evaluate them
 
 ---
 
 ## **文件组织结构**
 
-以下是项目目录及其文件功能的详细说明：
+folloing is the statement of files
 
 - **`decomposeDNNintoModules/`**  
-  《On Decomposing a Deep Neural Network into Modules》中提出的模块化方法，参照decomposeDNNintoModules库(https://github.com/rangeetpan/decomposeDNNintoModules/tree/master)
+  corresponding to the method in ` On Decomposing a Deep Neural Network into Modules`denoted as cmrie in our paper(https://github.com/rangeetpan/decomposeDNNintoModules/tree/master)
 
 - **`gradsplitter/`**  
-  《Reusing Convolutional Neural Network Models through Modularization and Composition》中提出的模块化方法Gradsplitter,参考Gradsplitter库（https://github.com/qibinhang/GradSplitter/tree/main）
+  corresponding to the method in `Reusing Convolutional Neural Network Models through Modularization and Composition`(https://github.com/qibinhang/GradSplitter/tree/main)
 - **`cnnsplitter/`**  
-  《Patching Weak Convolutional Neural Network Models through Modularization and Composition》中提出的模块化方法Cnnsplitter,参考CNNsplitter库（https://github.com/qibinhang/CNNSplitter/tree/main）
+  corresponding to the method in`Patching Weak Convolutional Neural Network Models through Modularization and Composition`(https://github.com/qibinhang/CNNSplitter/tree/main)
+- **`mwt/`**  
+  corresponding to the method in`Modularizing while Training: A New Paradigm for Modularizing DNN Models`(https://github.com/qibinhang/MwT)
+- **`decomposeWithMask/`**  
+  corresponding to the method in`Neural Network Module Decomposition and Recomposition with Superimposed Masks`
 
 
 
@@ -24,6 +28,7 @@
 在运行代码前，请确保已安装以下依赖：
 - Python >= 3.12
 - PyTorch >= 2.4
+- -tensoofow-2.16.2 >= 2.4
 - NumPy
 - Matplotlib
 

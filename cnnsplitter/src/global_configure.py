@@ -1,7 +1,7 @@
 class GlobalConfigures:
     def __init__(self):
         import os
-        root_dir = '/home/rq/modularization/cnnSplitter'  # the root_dir is 'xx/xx' when the path of this project is xx/xx/CNNSplitter
+        root_dir = '/bdata/rq/modularization/cnnsplitter'  # the root_dir is 'xx/xx' when the path of this project is xx/xx/CNNSplitter
 
         self.data_dir = f'{root_dir}/data'
         self.dataset_dir = f'{self.data_dir}/dataset'

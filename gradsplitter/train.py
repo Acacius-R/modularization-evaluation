@@ -80,14 +80,26 @@ def train(model, train_loader, val_loader, save_path):
 
 def test(model, test_loader):
     epoch_acc = []
+    # class_correct = [0] * 10
+    # class_total = [0] * 10
     with torch.no_grad():
         for batch_inputs, batch_labels in test_loader:
             batch_inputs, batch_labels = batch_inputs.to(device), batch_labels.to(device)
             outputs = model(batch_inputs)
             pred = torch.argmax(outputs, dim=1)
+            correct = (pred == batch_labels).squeeze()
+            for i in range(len(batch_labels)):
+                label = batch_labels[i].item()
+                # class_correct[label] += correct[i].item()
+                # class_total[label] += 1
             acc = torch.sum(pred == batch_labels)
             epoch_acc.append(torch.div(acc, batch_labels.shape[0]))
     print(f"\nTest Accuracy: {sum(epoch_acc) / len(epoch_acc) * 100:.2f}%")
+    # for i in range(10):
+    #     if class_total[i] > 0:
+    #         print(f"Accuracy of class {i}: {100 * class_correct[i] / class_total[i]:.2f}%")
+    #     else:
+    #         print(f"Accuracy of class {i}: N/A (no samples)")
 
 
 def train_estimator(configs):
@@ -142,15 +154,15 @@ def main():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model', choices=['simcnn', 'rescnn', 'incecnn'])
-    parser.add_argument('--dataset', choices=['cifar10', 'svhn'])
+    parser.add_argument('--model', choices=['vgg16', 'rescnn','simcnn'])
+    parser.add_argument('--dataset', choices=['cifar10', 'svhn','cifar100'])
     parser.add_argument('--execute', choices=['train_estimator', 'eval_estimator'])
     parser.add_argument('--estimator_idx', type=str)
     parser.add_argument('--lr', type=float, default=0.01)
     parser.add_argument('--batch_size', type=int, default=128)
     parser.add_argument('--gamma', type=float, default=0.1, help='LR is multiplied by gamma on schedule.')
     parser.add_argument('--schedule', type=str, default='60,120', help='Decrease learning rate at these epochs.')
-    parser.add_argument('--epochs', type=int, default=200)
+    parser.add_argument('--epochs', type=int, default=100)
     parser.add_argument('--early_stop', action='store_true')
     parser.add_argument('--split_train_set', type=str, default='8:2', help='train_model : validation')
     args = parser.parse_args()

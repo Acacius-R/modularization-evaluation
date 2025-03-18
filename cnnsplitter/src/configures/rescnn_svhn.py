@@ -9,11 +9,11 @@ class Configures(GlobalConfigures):
         self.dataset_name = 'svhn'
         self.num_classes = 10
 
-        self.best_generation = 107
-        self.best_sol_ensemble = [0, 0, 0, 22, 0, 0, 0, 0, 0, 0]
+        self.best_generation = 191
+        self.best_sol_ensemble = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.log_idx = 'recorder_1'
-        self.best_acc = f'93.52%'
-        self.best_diff = f'60.46%'
+        self.best_acc = f'93.79%'
+        self.best_diff = f'62.38%'
 
         self.workspace = f'{self.data_dir}/{self.model_name}_{self.dataset_name}'
         self.trained_model_dir = f'{self.workspace}'

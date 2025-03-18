@@ -11,9 +11,83 @@ def get_dataset_loader(dataset_name, for_modular=False):
         load_dataset = _load_cifar10_dirichlet
     elif dataset_name == 'svhn':
         load_dataset = _load_svhn_dirichlet
+    elif dataset_name == 'cifar100':
+        load_dataset = _load_cifar100_dirichlet
     else:
         raise ValueError
     return load_dataset
+
+def _load_cifar100_dirichlet(dataset_dir, is_train, shuffle_seed, is_random, split_train_set='8:2',
+                            batch_size=64, num_workers=0, pin_memory=False, selected_classes=None):
+    """
+    shuffle_seed: the idx of a base estimator in the ensemble model.
+    split_train_set: 8 for train model, 2 for validation of modularization. then 6 for train model, 2 for val model
+    selected_classes: list of selected class indices to load (default is None, which loads all classes)
+    """
+    if selected_classes is None:
+        selected_classes = list(range(80))  # 默认选择前10个类别
+
+    normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+    transform = transforms.Compose([transforms.Resize((32, 32)),
+                                    transforms.ToTensor(),
+                                    normalize])
+    if is_train:
+        if is_random:
+            transform = transforms.Compose([transforms.Resize((32, 32)),
+                                            transforms.RandomHorizontalFlip(),
+                                            transforms.RandomCrop(32, 4),
+                                            transforms.ToTensor(),
+                                            normalize])
+        split_ratio = [int(i) / 10 for i in split_train_set.split(':')]
+        assert sum(split_ratio) == 1
+        train = torchvision.datasets.CIFAR100(root=dataset_dir, train=True, transform=transform, download=True)
+
+        # 筛选出所选类别的数据
+        selected_indices = [i for i, label in enumerate(train.targets) if label in selected_classes]
+        train.targets = [train.targets[i] for i in selected_indices]
+        train.data = train.data[selected_indices]
+
+        alpha = 1
+        sampled_indices = _dirichlet_sample(train.targets,
+                                            n_classes=len(selected_classes), shuffle_seed=shuffle_seed, min_size=100, alpha=alpha)
+
+        # split the indices of train set into 2 parts, including modularity_train_set and modularity_val_set
+        train_set = sampled_indices[: int(split_ratio[0] * len(sampled_indices))]
+        val_set = sampled_indices[int(split_ratio[0] * len(sampled_indices)):]
+        split_set_indices = [train_set, val_set]
+
+        # split the train set according the split indices.
+        split_set_loader = []
+        for each_set_indices in split_set_indices:
+            each_set = copy.deepcopy(train)
+            each_set.targets = [each_set.targets[idx] for idx in each_set_indices]
+            each_set.data = each_set.data[each_set_indices]
+            each_set_loader = DataLoader(each_set, batch_size=batch_size, shuffle=True,
+                                         num_workers=num_workers, pin_memory=pin_memory)
+            split_set_loader.append(each_set_loader)
+        return split_set_loader
+    else:
+        ratio = 0.2  # 20% test data are used to evaluate modules.
+        test = torchvision.datasets.CIFAR100(root=dataset_dir, train=False, transform=transform)
+        
+        # 筛选出所选类别的数据
+        selected_indices = [i for i, label in enumerate(test.targets) if label in selected_classes]
+        test.targets = [test.targets[i] for i in selected_indices]
+        test.data = test.data[selected_indices]
+        
+        total_indices = list(range(len(test)))
+        module_eval_set, test_set = total_indices[:int(ratio * len(test))], total_indices[int(ratio * len(test)):]
+        split_set_indices = [module_eval_set, test_set]
+        # split the train set according the split indices.
+        split_set_loader = []
+        for each_set_indices in split_set_indices:
+            each_set = copy.deepcopy(test)
+            each_set.targets = [each_set.targets[idx] for idx in each_set_indices]
+            each_set.data = each_set.data[each_set_indices]
+            each_set_loader = DataLoader(each_set, batch_size=batch_size, num_workers=num_workers, pin_memory=pin_memory)
+            split_set_loader.append(each_set_loader)
+        return split_set_loader
+
 
 
 def _load_cifar10_dirichlet(dataset_dir, is_train, shuffle_seed, is_random, split_train_set='8:2',
@@ -113,7 +187,7 @@ def _load_svhn_dirichlet(dataset_dir, is_train, shuffle_seed, is_random, split_t
         return split_set_loader
     else:
         ratio = 0.2  # 20% test data are used to evaluate modules.
-        test = torchvision.datasets.SVHN(root=dataset_dir, split='test', transform=transform)
+        test = torchvision.datasets.SVHN(root=dataset_dir, split='test', transform=transform,download=True)
         total_indices = list(range(len(test)))
         module_eval_set, test_set = total_indices[:int(ratio * len(test))], total_indices[int(ratio * len(test)):]
         split_set_indices = [module_eval_set, test_set]
@@ -131,6 +205,8 @@ def _load_svhn_dirichlet(dataset_dir, is_train, shuffle_seed, is_random, split_t
 
 def _dirichlet_sample(dataset_labels, n_classes, shuffle_seed, min_size, alpha):
     np.random.seed(shuffle_seed)
+    max_attempts = 1000
+    attempt = 0
     while True:
         proportions = np.random.dirichlet(np.repeat(alpha, n_classes))
         proportions = proportions / np.max(proportions)
@@ -141,6 +217,10 @@ def _dirichlet_sample(dataset_labels, n_classes, shuffle_seed, min_size, alpha):
             np.random.shuffle(target_data_idx)
             ratio = proportions[each_class]
             data_idx_per_class.append(target_data_idx[:int(ratio * len(target_data_idx))])
+        
+        attempt+=1
+        if attempt> max_attempts:
+            break
         if min([len(each_class_sample) for each_class_sample in data_idx_per_class]) < min_size:
             continue
         else:

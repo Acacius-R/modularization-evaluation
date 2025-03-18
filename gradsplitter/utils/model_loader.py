@@ -3,15 +3,15 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 def load_model(model_name, num_classes=10):
-    if model_name == 'simcnn':
-        from models.simcnn import SimCNN
-        model = SimCNN(num_classes=num_classes)
-    elif model_name == 'rescnn':
+    if model_name == 'rescnn':
         from models.rescnn import ResCNN
         model = ResCNN(num_classes=num_classes)
-    elif model_name == 'incecnn':
-        from models.incecnn import InceCNN
-        model = InceCNN()
+    elif model_name == 'vgg16':
+        from models.vgg16 import VGG16
+        model = VGG16(num_classes=num_classes)
+    elif model_name == 'simcnn':
+        from models.simcnn import SimCNN
+        model = SimCNN()
     else:
         raise ValueError
     return model

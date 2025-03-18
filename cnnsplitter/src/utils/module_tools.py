@@ -5,6 +5,7 @@ import re
 from tqdm import tqdm
 from utils.model_loader import load_model
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+import random
 
 
 def extract_module(conv_info, model):
@@ -22,14 +23,14 @@ def extract_module(conv_info, model):
             active_kernel_idx.append(f'{conv_idx}_k_{kernel_idx}')
     return module, active_kernel_idx
 
-
+#提供conv的字典，和原模型
 def _extract_module_for_simcnn(conv_info, model):
     """
     conv_info: {'conv_i': [k_idx, ...],}
     """
     from models.simcnn import SimCNN
     n_conv = len([1 for layer_name in model._modules if 'conv' in layer_name])
-    assert len(conv_info) == n_conv
+    assert len(conv_info) == n_conv #检验配置是否完整
     # get the configures of module from conv_info
     conv_configs = [0] * n_conv
     total_conv_names = [f'conv_{idx}' for idx in range(n_conv)]  # for sorting conv_names in conv_info
@@ -39,13 +40,13 @@ def _extract_module_for_simcnn(conv_info, model):
             conv_info[conv_name] = [0]
             print(f'WARNING: {conv_name} has no active kernels.')
         conv_configs[idx] = len(conv_info[conv_name])
-
+    #根据conv数量定义模块结构
     cin = 3
     for i, cout in enumerate(conv_configs):
         conv_configs[i] = (cin, cout)
         cin = cout
 
-    # initialize module
+    # initialize module 初始化模块的实例，并加载对应的参数
     module = SimCNN(conv_configs=conv_configs, num_classes=model.num_classes)
     # extract the parameters of active kernels from model
     active_kernel_param = {}
@@ -207,19 +208,48 @@ def evaluate_ensemble_modules(modules, dataset):
     labels = None
     labels_for_check = None
     modules_outputs = []
-    for target_class, m in enumerate(tqdm(modules, desc='modules', ncols=100)):
+    # for target_class, m in enumerate(tqdm(modules, desc='modules', ncols=100)):
+    for target_class, (m,_) in enumerate(tqdm(modules, desc='modules', ncols=100)):
+        # 就是把每个target_class模块的输出得到
         each_module_outputs, labels = module_predict(m, dataset)
         # check
         if labels_for_check is not None:
             assert (labels_for_check == labels).all()
         else:
             labels_for_check = labels
+        # 只保留模块在对应类别的输出值
         modules_outputs.append(each_module_outputs[:, target_class].unsqueeze(-1))
+    #把所有模块对应的输出并排放在一起
+    #选最大的那个结果就是最终的组合准确率
     modules_outputs = torch.cat(modules_outputs, dim=1)
     predicts = torch.argmax(modules_outputs, dim=1)
     acc = torch.mean((predicts == labels).float())
     return acc.cpu().item()
 
+
+def calculate_jaccard_index(module_kernels_1, module_kernels_2):
+
+    set1 = set(module_kernels_1)
+    set2 = set(module_kernels_2)
+    intersection = len(set1.intersection(set2))
+    union = len(set1.union(set2))
+    jaccard_index = intersection / union
+    return jaccard_index
+
+def calculate_all_jaccard_indices(modules):
+
+    num_modules = len(modules)
+    jaccard_indices = np.zeros((num_modules, num_modules))
+
+    for i in range(num_modules):
+        for j in range(i, num_modules):
+            module_kernels_1 = modules[i][1]
+            module_kernels_2 = modules[j][1]
+            jaccard_index = calculate_jaccard_index(module_kernels_1, module_kernels_2)
+            jaccard_indices[i, j] = jaccard_index
+            jaccard_indices[j, i] = jaccard_index
+
+    return jaccard_indices
 
 def load_population(generation, sol_dir, num_classes):
     populations = []
@@ -230,7 +260,16 @@ def load_population(generation, sol_dir, num_classes):
         populations.append(pop)
     return populations
 
+def calculate_module_param_ratio(modules, model):
+    total_params = sum(p.numel() for p in model.parameters())
+    module_param_ratios = []
 
+    for module, _ in modules:
+        module_params = sum(p.numel() for p in module.parameters())
+        module_param_ratio = module_params / total_params
+        module_param_ratios.append(module_param_ratio)
+
+    return module_param_ratios
 def load_modules(configs, return_trained_model=False):
     trained_entire_model_path = f'{configs.trained_model_dir}/{configs.trained_entire_model_name}'
     model = load_model(configs.model_name, num_classes=configs.num_classes)
@@ -240,21 +279,80 @@ def load_modules(configs, return_trained_model=False):
     populations = load_population(generation=configs.best_generation, sol_dir=configs.ga_save_dir,
                                   num_classes=configs.num_classes)
     modules = []
-    random_selection = True
     for target_class in range(configs.num_classes):
         configs.set_sorted_kernel_idx(target_class)
+        sol = populations[target_class][configs.best_sol_ensemble[target_class], :]
+        conv_info = decode(sol, configs)
+        each_module, active_kernel_idx = extract_module(conv_info, model)
+        modules.append((each_module, active_kernel_idx))
+    if return_trained_model:
+        return modules, model
+    else:
+        return modules
+def load_modules2(configs, return_trained_model=False,randomseed=None):
+    trained_entire_model_path = f'{configs.trained_model_dir}/{configs.trained_entire_model_name}'
+    model = load_model(configs.model_name, num_classes=configs.num_classes)
+    model.load_state_dict(torch.load(trained_entire_model_path, map_location=device))
+    model = model.to(device)
+    model.eval()
+    if randomseed:
+        ge_num = random.randint(1,200)
+        print(ge_num)
+        populations = load_population(ge_num, sol_dir=configs.ga_save_dir,
+                                  num_classes=configs.num_classes)
+    else:
+        populations = load_population(generation=configs.best_generation, sol_dir=configs.ga_save_dir,
+                                  num_classes=configs.num_classes)
+    modules = []
+    for target_class in range(configs.num_classes):
+        configs.set_sorted_kernel_idx(target_class)
+        sol = populations[target_class][configs.best_sol_ensemble[target_class], :]
+        conv_info = decode(sol, configs)
+        each_module, active_kernel_idx = extract_module(conv_info, model)
+        modules.append((each_module, active_kernel_idx))
+    if return_trained_model:
+        return modules, model
+    else:
+        return modules
+#下面的是修改版本
+# 把best_generation的模块化结果加载出来·
+def load_modules1(configs,randomseed=None,return_trained_model=False):
+    #先加载训练好的完整模型
+    trained_entire_model_path = f'{configs.trained_model_dir}/{configs.trained_entire_model_name}'
+    model = load_model(configs.model_name, num_classes=configs.num_classes)
+    model.load_state_dict(torch.load(trained_entire_model_path, map_location=device))
+    model = model.to(device)
+    model.eval()
+    #加载最佳的模块组合
+    populations = load_population(generation=configs.best_generation, sol_dir=configs.ga_save_dir,
+                                  num_classes=configs.num_classes)
+    modules = []
+
+    last_sol = None
+    last_conv =None
+    # 根据population解码成具体模块
+    for target_class in range(configs.num_classes):
+        # print(f'loading module for class {target_class}')
+        configs.set_sorted_kernel_idx(target_class)
         best_sol = populations[target_class][configs.best_sol_ensemble[target_class], :]
-        if random_selection:
+        # print(f'toatal kernels: {len(best_sol)}')
+        # print(f"Module {target_class} kernels: {sum(best_sol)}")
+        if randomseed is not None:
+            np.random.seed(randomseed + target_class)
             # 随机选择一个个体
             num_ones = int(np.sum(best_sol))
             random_sol = np.zeros_like(best_sol)
             random_indices = np.random.choice(len(best_sol), num_ones, replace=False)
+            # print(random_indices[0])
             random_sol[random_indices] = 1
             sol = random_sol
+            last_sol = sol
         else:
             sol = best_sol
         
+        
         conv_info = decode(sol, configs)
+        last_conv = conv_info
         each_module, active_kernel_idx = extract_module(conv_info, model)
         modules.append((each_module, active_kernel_idx))
     if return_trained_model:

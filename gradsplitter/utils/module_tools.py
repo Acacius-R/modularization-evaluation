@@ -14,6 +14,9 @@ def extract_module(module_conv_info, module_head_para, trained_model):
     elif trained_model.__class__.__name__ == 'InceCNN':
         from models.incecnn import InceCNN
         module = _extract_module_ince(module_conv_info, module_head_para, trained_model, InceCNN)
+    elif trained_model.__class__.__name__ == 'VGG16':
+        from models.vgg16 import VGG16
+        module = _extract_module_sim_res(module_conv_info, module_head_para, trained_model, VGG16)
     else:
         raise ValueError
     return module
@@ -41,6 +44,7 @@ def _extract_module_sim_res(module_conv_info, module_head_para, trained_model, m
     total_weight_sum = 0  # For calculating the total weight sum
     active_weight_sum = 0  # For calculating the sum of active weights
     for i in range(len(conv_configs)):
+        # print(f"Available keys in model_param: {list(model_param.keys())}")
         conv_weight = model_param[f'conv_{i}.0.weight']
         conv_bias = model_param[f'conv_{i}.0.bias']
         bn_weight = model_param[f'conv_{i}.1.weight']
@@ -63,12 +67,18 @@ def _extract_module_sim_res(module_conv_info, module_head_para, trained_model, m
         # total_weight_sum += conv_weight.numel()
         # active_weight_sum += tmp.numel()
 
-
-    assert model_param[f'fc_{len(conv_configs)}.weight'].size(1) == model_param[f'conv_{len(conv_configs)-1}.0.bias'].size(0)
-    first_fc_weight = model_param[f'fc_{len(conv_configs)}.weight']
-    pre_conv_active_kernel_idx = module_conv_info[-1]
-    active_first_fc_weight = first_fc_weight[:, pre_conv_active_kernel_idx]
-    active_kernel_param[f'fc_{len(conv_configs)}.weight'] = active_first_fc_weight
+    if trained_model.__class__.__name__ == 'VGG16':
+        assert model_param[f'fc.weight'].size(1) == model_param[f'conv_{len(conv_configs)-1}.0.bias'].size(0)
+        first_fc_weight = model_param[f'fc.weight']
+        pre_conv_active_kernel_idx = module_conv_info[-1]
+        active_first_fc_weight = first_fc_weight[:, pre_conv_active_kernel_idx]
+        active_kernel_param[f'fc.weight'] = active_first_fc_weight
+    else:
+        assert model_param[f'fc_{len(conv_configs)}.weight'].size(1) == model_param[f'conv_{len(conv_configs)-1}.0.bias'].size(0)
+        first_fc_weight = model_param[f'fc_{len(conv_configs)}.weight']
+        pre_conv_active_kernel_idx = module_conv_info[-1]
+        active_first_fc_weight = first_fc_weight[:, pre_conv_active_kernel_idx]
+        active_kernel_param[f'fc_{len(conv_configs)}.weight'] = active_first_fc_weight
 
     model_param.update(active_kernel_param)
     model_param.update(module_head_para)
@@ -76,6 +86,7 @@ def _extract_module_sim_res(module_conv_info, module_head_para, trained_model, m
     module = module.to(device).eval()
     # weight_proportion = active_weight_sum / total_weight_sum
     # print(f"Active weights proportion: {weight_proportion:.4f}")
+    # print(f'total weight sum: {total_weight_sum}, active weight sum: {active_weight_sum}')
     return module
 
 
@@ -179,36 +190,56 @@ def _extract_module_ince(module_conv_info, module_head_para, trained_model, mode
     return module
 
 
-def get_target_module_info(modules_info, trained_model, target_class, handle_warning=True):
+def get_target_module_info(modules_info, trained_model, target_class, random_seed,handle_warning=True):
     if trained_model.__class__.__name__ == 'SimCNN':
         module_conv_info, module_head_para = get_target_module_info_for_simcnn(modules_info, target_class,
-                                                                               handle_warning)
+                                                                               handle_warning,random_seed)
     elif trained_model.__class__.__name__ == 'ResCNN':
         module_conv_info, module_head_para = get_target_module_info_for_rescnn(modules_info, target_class,
-                                                                               trained_model, handle_warning)
+                                                                               trained_model, handle_warning,random_seed)
     elif trained_model.__class__.__name__ == 'InceCNN':
         module_conv_info, module_head_para = get_target_module_info_for_incecnn(modules_info, target_class,
                                                                                 trained_model, handle_warning)
+    elif trained_model.__class__.__name__ == 'VGG16':
+        module_conv_info, module_head_para = get_target_module_info_for_simcnn(modules_info, target_class,
+                                                                               handle_warning,random_seed)
     else:
-        raise ValueError
+        raise ValueError(f"Unknown model: {trained_model.__class__.__name__}")
     return module_conv_info, module_head_para
 
 
-def get_target_module_info_for_simcnn(modules_info, target_class, handle_warning):
+def get_target_module_info_for_simcnn(modules_info, target_class, handle_warning,random_seed):
     module_conv_info = []  # {[1 0 0 1..]... [0 0 1 1]} -> [[0,1,2,5,9,63], ..., [1,34,100,111,...]] indices of retained kernels.
     module_head_para = OrderedDict()
+    total_kernels_sum = 0
+    retained_kernels_sum = 0
     for conv_idx in range(len(modules_info)):
         layer_name = f'module_{target_class}_conv_{conv_idx}'
         if layer_name in modules_info:
             each_conv_info = modules_info[layer_name]
             each_conv_info = each_conv_info.numpy()
-            idx_info = np.argwhere(each_conv_info == 1)
-            if idx_info.size == 0 and handle_warning:
-                idx_info = np.array([[0]]).astype('int64')
-            module_conv_info.append(np.squeeze(idx_info, axis=-1))
+            num_kernels_to_retain = np.sum(each_conv_info == 1)
+            total_kernels = len(each_conv_info)
+            total_kernels_sum += total_kernels
+            retained_kernels_sum += num_kernels_to_retain
+            if random_seed is not None:
+                np.random.seed(random_seed)
+                if num_kernels_to_retain == 0 and handle_warning:
+                    idx_info = np.array([[0]]).astype('int64')
+                else:
+                    idx_info = np.random.choice(total_kernels, num_kernels_to_retain, replace=False)
+                module_conv_info.append(idx_info)
+            else:
+                idx_info = np.argwhere(each_conv_info == 1)
+                if idx_info.size == 0 and handle_warning:
+                    idx_info = np.array([[0]]).astype('int64')
+                module_conv_info.append(np.squeeze(idx_info, axis=-1))
         else:
             break
-
+    
+    selection_ratio = retained_kernels_sum / total_kernels_sum if total_kernels_sum != 0 else 0
+    # print(f"Active weights proportion: {selection_ratio:.2f}")
+    print(f'total_kernels_sum:{total_kernels_sum} retained_kernels_sum:{retained_kernels_sum}')
     if f'module_{target_class}_head.weight' in modules_info:  # head with one layer
         module_head_para[f'module_head.weight'] = modules_info[f'module_{target_class}_head.weight']
         module_head_para[f'module_head.bias'] = modules_info[f'module_{target_class}_head.bias']
@@ -222,11 +253,10 @@ def get_target_module_info_for_simcnn(modules_info, target_class, handle_warning
     return module_conv_info, module_head_para
 
 
-def get_target_module_info_for_rescnn(modules_info, target_class, trained_model, handle_warning):
+def get_target_module_info_for_rescnn(modules_info, target_class, trained_model, handle_warning,random_seed):
     module_conv_info = []  # {[1 0 0 1..]... [0 0 1 1]} -> [[0,1,2,5,9,63], ..., [1,34,100,111,...]] indices of retained kernels.
     module_head_para = OrderedDict()
     residual_layer_indices = trained_model.residual_idx
-    random = True
     total_kernels_sum = 0
     retained_kernels_sum = 0
     for conv_idx in range(len(modules_info)):
@@ -243,7 +273,8 @@ def get_target_module_info_for_rescnn(modules_info, target_class, trained_model,
             total_kernels_sum += total_kernels
             retained_kernels_sum += num_kernels_to_retain
             # random choic for comparison
-            if random:
+            if random_seed is not None:
+                np.random.seed(random_seed)
                 if num_kernels_to_retain == 0 and handle_warning:
                     idx_info = np.array([[0]]).astype('int64')
                 else:
@@ -259,7 +290,8 @@ def get_target_module_info_for_rescnn(modules_info, target_class, trained_model,
     # module_head_para[f'module_head.weight'] = modules_info[f'module_{target_class}_head.weight']
     # module_head_para[f'module_head.bias'] = modules_info[f'module_{target_class}_head.bias']
     selection_ratio = retained_kernels_sum / total_kernels_sum if total_kernels_sum != 0 else 0
-    print(f"Active weights proportion: {selection_ratio:.2f}")
+    # print(f"Active weights proportion: {selection_ratio:.2f}")
+    print(f'total_kernels_sum:{total_kernels_sum} retained_kernels_sum:{retained_kernels_sum}')
     module_head_para[f'module_head.0.weight'] = modules_info[f'module_{target_class}_head.0.weight']
     module_head_para[f'module_head.0.bias'] = modules_info[f'module_{target_class}_head.0.bias']
     module_head_para[f'module_head.2.weight'] = modules_info[f'module_{target_class}_head.2.weight']
@@ -290,9 +322,9 @@ def get_target_module_info_for_incecnn(modules_info, target_class, trained_model
     return module_conv_info, module_head_para
 
 
-def load_module(module_path, trained_model, target_class):
+def load_module(module_path, trained_model, target_class,random_seed):
     modules_info = torch.load(module_path, map_location='cpu')
-    module_conv_info, module_head_para = get_target_module_info(modules_info, trained_model, target_class)
+    module_conv_info, module_head_para = get_target_module_info(modules_info, trained_model, target_class,random_seed)
     module = extract_module(module_conv_info, module_head_para, trained_model)
     return module
 
