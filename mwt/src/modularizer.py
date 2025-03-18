@@ -532,5 +532,5 @@ if __name__ == '__main__':
     random_seed = 306
     # calculate_similarity(modules_masks_save_path)
     # calculate_cross_accuracy()
-    # calculate_param(modules_masks_save_path)
+    calculate_param(modules_masks_save_path)
     

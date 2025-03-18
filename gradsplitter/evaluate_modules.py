@@ -139,8 +139,12 @@ def main():
     model = load_trained_model(configs.model_name, configs.num_classes, configs.trained_model_path)
     # total_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
     # print(f"Total Params: {total_params}")
+    
+    #RQ3
     calculate_flops(model,modules,module_eval_dataset)
     # cross_acc = []
+
+    #RQ1&RQ2
     # for module in tqdm(modules):
     #     tmp = []
     #     for i in range(configs.num_classes):
@@ -150,6 +154,8 @@ def main():
     #     writer = csv.writer(f)
     #     writer.writerows(cross_acc)
     # calculate_jaccard_similarity(modules)
+
+    #RQ4
     # acc = evaluate_ensemble_modules(modules,module_eval_dataset)
     # random_acc = evaluate_ensemble_modules(random_module,module_eval_dataset)
     # print(f'Ensemble acc:{acc:.4f}, Random Ensemble acc:{random_acc:.4f}')
