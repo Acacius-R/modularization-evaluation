@@ -146,9 +146,7 @@ def random_weight_module_predict(random_seed):
         module_to_eval.set_weights(module[i].get_weights())
         weights, biases = get_weights_and_biases(module_to_eval)
         orig_weights, orig_biases = get_weights_and_biases(orig_model)
-        
-        
-         
+
         num_nonzero_weights = sum(np.count_nonzero(w) for w in weights[:-1])
         num_nonzero_biases = sum(np.count_nonzero(b) for b in biases[:-1])
         

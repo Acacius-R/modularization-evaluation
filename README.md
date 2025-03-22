@@ -34,6 +34,9 @@ To conduct our experiment:
 
 - **`decomposeWithMask/`**  
   run the evaluate_module_per_class() and calculate_jaccard_similarity() in `evalute.py `to get the result of RQ1 and RQ2, run calculate_flops to get result of RQ3 and generate_random_modules()to get random modules 
+
+- **`incite/`**  
+  run the accuracy_evaluate() and similarity_evaluate() in `combiner.py `to get the result of RQ1 and RQ2, run calculate_params_and_flops() to get result of RQ3 and random_weight_module_generate()to get random modules 
 ---
 
 ## **Dependencies and Environment**
