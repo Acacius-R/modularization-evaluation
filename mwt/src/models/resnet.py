@@ -128,11 +128,7 @@ class ResNet(nn.Module):
         # self.conv1 = nn.Conv2d(3, self.inplanes, kernel_size=7, stride=2, padding=3,
         #                        bias=False)
         # For CIFAR-10 with resolution of 32 x 32
-        """
-        ResNet18网络的7x7降采样卷积和池化操作容易丢失一部分信息,
-        所以在实验中我们将7x7的降采样层和最大池化层去掉,替换为一个3x3的降采样卷积,
-        同时减小该卷积层的步长和填充大小
-        """
+
         self.conv1 = nn.Conv2d(in_channels=3, out_channels=64, kernel_size=3, stride=1, padding=1, bias=False)
         self.bn1 = norm_layer(self.inplanes)
         self.relu = nn.ReLU(inplace=True)

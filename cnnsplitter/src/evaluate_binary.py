@@ -73,11 +73,8 @@ def test_split(model, test_loader,class_i):
     '''
             binary_pred = (pred == class_i).int()
             binary_labels = (batch_labels == class_i).int()
-
-            # 计算 correct
             correct1 = (binary_pred == binary_labels).squeeze()
             #correct = (pred == batch_labels).squeeze()
-            #记录每个类别的准确率
             correct += sum(correct1)
             all += len(batch_labels)
     print(correct/all)        
