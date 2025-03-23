@@ -150,7 +150,7 @@ if __name__ == '__main__':
     #     print(f"Results saved to {output_json_path}")
     # results_random = load_results_from_json('random_result.json')
     # results_best = load_results_from_json('result.json')
-    # output_image_path = "accuracy_gap_comparison2.png"  # 指定保存路径
+    # output_image_path = "accuracy_gap_comparison2.png"  
     # plot_accuracy_comparison(results_random, results_best, output_image_path)
 
     # acc = evaluate_ensemble_modules(modules, test_dataset)

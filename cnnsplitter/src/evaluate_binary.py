@@ -59,7 +59,7 @@ def test_split(model, test_loader,class_i):
         binary_labels = (all_labels==j).int()
         ones_idx = torch.where(binary_labels == 1)[0]
         zeros_idx = torch.where(binary_labels == 0)[0]
-        selected_zeros_idx = zeros_idx[torch.randperm(len(zeros_idx))[:1000]]  # 随机采样 1000 个
+        selected_zeros_idx = zeros_idx[torch.randperm(len(zeros_idx))[:1000]]  
         # merge index
         selected_indices = torch.cat((ones_idx, selected_zeros_idx))  
         binary_labels1 = binary_labels[selected_indices]
