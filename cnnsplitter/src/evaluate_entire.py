@@ -20,7 +20,7 @@ def test(model, test_loader):
             outputs = model(batch_inputs)
             pred = torch.argmax(outputs, dim=1)
             correct = (pred == batch_labels).squeeze()
-            #记录每个类别的准确率
+
             for i in range(len(batch_labels)):
                 label = batch_labels[i].item()
                 class_correct[label] += correct[i].item()

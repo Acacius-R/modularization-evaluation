@@ -12,10 +12,7 @@ from utils import check_dir
 from utils import load_modules
 import torch.nn.functional as F
 def stemming_loss(current_scores, previous_scores_list, alpha=0.05, p=1):
-    """
-    """
-    
-    
+
 
     regularization_loss = 0.0
     L = len(current_scores)

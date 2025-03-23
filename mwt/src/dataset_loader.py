@@ -268,7 +268,7 @@ def load_cifar100(dataset_dir, batch_size, num_workers):
                                     normalize])
     train_dataset = CIFAR100(root=dataset_dir, train=True, transform=transform, download=True)
     train_targets = np.array(train_dataset.targets)
-    target_classes = list(range(10))  # 仅加载前十种类别
+    target_classes = list(range(10)) 
     idx = np.isin(train_targets, target_classes)
     target_label = train_targets[idx].tolist()
     trans_label = [target_classes.index(i) for i in target_label]

@@ -23,14 +23,14 @@ def extract_module(conv_info, model):
             active_kernel_idx.append(f'{conv_idx}_k_{kernel_idx}')
     return module, active_kernel_idx
 
-#提供conv的字典，和原模型
+
 def _extract_module_for_simcnn(conv_info, model):
     """
     conv_info: {'conv_i': [k_idx, ...],}
     """
     from models.simcnn import SimCNN
     n_conv = len([1 for layer_name in model._modules if 'conv' in layer_name])
-    assert len(conv_info) == n_conv #检验配置是否完整
+    assert len(conv_info) == n_conv 
     # get the configures of module from conv_info
     conv_configs = [0] * n_conv
     total_conv_names = [f'conv_{idx}' for idx in range(n_conv)]  # for sorting conv_names in conv_info
@@ -40,13 +40,12 @@ def _extract_module_for_simcnn(conv_info, model):
             conv_info[conv_name] = [0]
             print(f'WARNING: {conv_name} has no active kernels.')
         conv_configs[idx] = len(conv_info[conv_name])
-    #根据conv数量定义模块结构
+
     cin = 3
     for i, cout in enumerate(conv_configs):
         conv_configs[i] = (cin, cout)
         cin = cout
 
-    # initialize module 初始化模块的实例，并加载对应的参数
     module = SimCNN(conv_configs=conv_configs, num_classes=model.num_classes)
     # extract the parameters of active kernels from model
     active_kernel_param = {}
@@ -210,17 +209,16 @@ def evaluate_ensemble_modules(modules, dataset):
     modules_outputs = []
     # for target_class, m in enumerate(tqdm(modules, desc='modules', ncols=100)):
     for target_class, (m,_) in enumerate(tqdm(modules, desc='modules', ncols=100)):
-        # 就是把每个target_class模块的输出得到
+
         each_module_outputs, labels = module_predict(m, dataset)
         # check
         if labels_for_check is not None:
             assert (labels_for_check == labels).all()
         else:
             labels_for_check = labels
-        # 只保留模块在对应类别的输出值
+
         modules_outputs.append(each_module_outputs[:, target_class].unsqueeze(-1))
-    #把所有模块对应的输出并排放在一起
-    #选最大的那个结果就是最终的组合准确率
+
     modules_outputs = torch.cat(modules_outputs, dim=1)
     predicts = torch.argmax(modules_outputs, dim=1)
     acc = torch.mean((predicts == labels).float())
@@ -314,23 +312,22 @@ def load_modules2(configs, return_trained_model=False,randomseed=None):
         return modules, model
     else:
         return modules
-#下面的是修改版本
-# 把best_generation的模块化结果加载出来·
+
 def load_modules1(configs,randomseed=None,return_trained_model=False):
-    #先加载训练好的完整模型
+
     trained_entire_model_path = f'{configs.trained_model_dir}/{configs.trained_entire_model_name}'
     model = load_model(configs.model_name, num_classes=configs.num_classes)
     model.load_state_dict(torch.load(trained_entire_model_path, map_location=device))
     model = model.to(device)
     model.eval()
-    #加载最佳的模块组合
+
     populations = load_population(generation=configs.best_generation, sol_dir=configs.ga_save_dir,
                                   num_classes=configs.num_classes)
     modules = []
 
     last_sol = None
     last_conv =None
-    # 根据population解码成具体模块
+
     for target_class in range(configs.num_classes):
         # print(f'loading module for class {target_class}')
         configs.set_sorted_kernel_idx(target_class)
@@ -339,7 +336,7 @@ def load_modules1(configs,randomseed=None,return_trained_model=False):
         # print(f"Module {target_class} kernels: {sum(best_sol)}")
         if randomseed is not None:
             np.random.seed(randomseed + target_class)
-            # 随机选择一个个体
+
             num_ones = int(np.sum(best_sol))
             random_sol = np.zeros_like(best_sol)
             random_indices = np.random.choice(len(best_sol), num_ones, replace=False)

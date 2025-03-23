@@ -32,9 +32,7 @@ def get_layer_outputs(input_data,weights,biases):
 
 # must be Keras or TensorFlow
 def get_weights_and_biases(model):
-    """
-    获取模型的权重和偏置。
-    """
+
     # skip flatten layer
     weights = [layer.get_weights()[0] for layer in model.layers[1:]]
     biases = [layer.get_weights()[1] for layer in model.layers[1:]]

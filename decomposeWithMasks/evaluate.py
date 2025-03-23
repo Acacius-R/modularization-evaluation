@@ -28,16 +28,7 @@ def count_nonzero_weights(module):
     return nonzero_count
 
 def generate_random_modules(modules, orig_model):
-    """
-    生成随机模块。
-    
-    参数:
-        modules (list): 模块列表。
-        orig_model (nn.Module): 原始模型。
-    
-    返回:
-        list: 随机模块列表。
-    """
+
     random_modules = []
     orig_weights = get_model_weights(orig_model)
     for module in modules:

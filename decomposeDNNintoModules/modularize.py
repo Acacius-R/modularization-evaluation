@@ -121,7 +121,7 @@ if __name__ == '__main__':
     slicing_model = load_model(model_dir)
     model = load_model(model_dir)
     
-    #加载训练数据
+
 
     if "FMNIST" in model_name:
         (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()

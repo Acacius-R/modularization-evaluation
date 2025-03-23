@@ -16,7 +16,6 @@ def evaluate_modules_per_class(modules, dataset, num_classes):
 
     results=[]
 
-    # 遍历每个模块
     for module_idx, (module,_) in enumerate(tqdm(modules, desc="Evaluating modules")):
         # print(f"module_idx: {module_idx}")
         # module_results = {}
@@ -82,7 +81,6 @@ def calculate_flops():
     #     for i in range(len(module_flops)):
     #         f.write(f"module_{i} flops: {module_flops[i]}\n")
     #     f.write (f"FLOPs gap ( Modules - module): {flops_gap}")
-#测试代码
 def compare_model_parameters(model_a, model_b):
     """
     Compares the parameters of two models and returns True if they are identical.
@@ -118,7 +116,6 @@ if __name__ == '__main__':
     modules,model=load_modules1(configs,return_trained_model=True,randomseed=randomseed)
     #modules = load_modules(configs)
     composed_para = 0
-    #不同模块是不一样的
     # print(compare_model_parameters(modules[0][0],modules[1][0]))    
     # for module in modules:
     #     total_params = sum(p.numel() for p in module[0].parameters() if p.requires_grad)

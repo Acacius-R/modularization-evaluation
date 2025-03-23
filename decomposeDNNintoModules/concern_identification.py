@@ -28,7 +28,7 @@ def concern_identification(model, input_data, indicator, D, b):
                     D[l][:, j] = weights[l][:, j]
                     b[l][j] = biases[l][j]
                 else:
-                    for k in range(weights[l].shape[1]):  # 遍历边
+                    for k in range(weights[l].shape[1]):  
                         if weights[l][j, k] < 0:
                             
                             D[l][j, k] = max(D[l][j, k], weights[l][j, k])
